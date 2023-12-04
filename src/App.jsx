@@ -2,6 +2,12 @@ import './App.css'
 import './index.css';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useAtom } from 'jotai';
+import { userAtom } from "./stores/userAtom";
+import Cookies from 'js-cookie';
+import { useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -23,11 +29,24 @@ import NavBar from './components/Navbar'
 
 
 function App() {
+  const [, setUser] = useAtom(userAtom);
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+
+    if (token) {
+      setUser({
+        isLoggedIn: true,
+        token: token,
+      });
+    }
+  }, []);
 
   return (
     <>
       <Router>
         <NavBar />
+        <ToastContainer />
         <Routes>
           <Route path="/" element={<Home/>} />
           <Route path="/property/:id" element={<ShowProperty/>}/>

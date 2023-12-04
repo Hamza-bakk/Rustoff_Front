@@ -1,10 +1,9 @@
-import Properties from "../../components/Properties"
+import Hero from "../../components/Hero/hero"
 
 const Home = () => {
   return (
     <div>
-      <h1>Bienvenue sur ImmoCoin</h1>
-      <Properties />
+      <Hero />
     </div>
   )
 }

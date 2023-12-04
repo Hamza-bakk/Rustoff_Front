@@ -3,30 +3,31 @@ import { useAtom } from 'jotai';
 import { userAtom } from '../../stores/userAtom';
 import LogoutButton from '../Auth/Logout';
 import logo from '../../assets/rust.png';
+
 const NavBar = () => {
   const [userInfo] = useAtom(userAtom);
 
   return (
     <nav className="bg-gray-800 p-4">
-      <div className="container mx-auto flex items-center justify-between">
-        <div className="flex items-center">
+      <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between">
+        <div className="flex items-center mb-4 lg:mb-0">
           <img src={logo} className="h-12 w-auto mr-2" alt="immocoin Logo" />
           <Link to="/" className="font-bold text-xl text-white no-underline">
             RustOff
           </Link>
         </div>
-        <div className="flex items-center text-center flex-1 justify-center ">
-          <Link to="/boutique" className=" text-white hover:underline font-bold mx-4 no-underline">
+        <div className="flex items-center text-center lg:flex-1 lg:justify-center ">
+          <Link to="/boutique" className="text-white hover:underline font-bold mx-4 lg:mx-0 no-underline">
             Boutique
           </Link>
-          <Link to="/portfolio" className="hover:underline font-bold text-white mx-4 no-underline">
+          <Link to="/portfolio" className="hover:underline font-bold text-white mx-4 lg:mx-0 no-underline">
             Portfolio
           </Link>
-          <Link to="/faq" className="hover:underline font-bold text-white mx-4 no-underline">
+          <Link to="/faq" className="hover:underline font-bold text-white mx-4 lg:mx-0 no-underline">
             FAQ
           </Link>
         </div>
-        <div className="flex items-center text-center space-x-4 ">
+        <div className="flex items-center text-center lg:space-x-4 ">
           {userInfo.isLoggedIn ? (
             <>
               <Link

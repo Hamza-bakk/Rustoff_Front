@@ -1,5 +1,4 @@
 import './App.css'
-import './index.css';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useAtom } from 'jotai';
@@ -25,7 +24,6 @@ import UpdateProperty from './pages/MyProperties/update';
 
 //components
 import NavBar from './components/Navbar'
-
 
 
 function App() {

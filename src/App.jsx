@@ -59,6 +59,8 @@ function App() {
           <Route path="/newpassword" element={<NewPassword/>} />
           <Route path="/authsuccess" element={<AuthSuccess/>} />
           <Route path="/logoutsuccess" element={<LogoutSuccess/>} />
+          <Route path="/politique-confidentialite" element={<PrivacyPolicySection />} />
+          <Route path="/politique-remboursement" element={<RefundPolicySection />} />
           <Route path="/portfolio" element={<Portfolio />} />
         </Routes>
       </Router>

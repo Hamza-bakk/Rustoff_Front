@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { userAtom } from './stores/userAtom';
@@ -21,6 +21,7 @@ import UpdateProperty from './pages/MyProperties/update';
 import LegalSection from './components/Footer/LegalSection';
 import PrivacyPolicySection from './components/Footer/PrivacyPolicySection';
 import RefundPolicySection from './components/Footer/RefundPolicySection';
+import Faq from './pages/Faq/';
 
 // Components
 import NavBar from './components/Navbar';
@@ -61,6 +62,7 @@ function App() {
               <Route path="/mentions-legales" element={<LegalSection />} />
               <Route path="/politique-confidentialite" element={<PrivacyPolicySection />} />
               <Route path="/politique-remboursement" element={<RefundPolicySection />} />
+              <Route path="/faq" element={<Faq />} />
             </Routes>
           </main>
           <Footer />

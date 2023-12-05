@@ -21,6 +21,8 @@ import ShowProperty from './components/Properties/show';
 import MyProperties from './pages/MyProperties';
 import CreateProperty from './pages/MyProperties/create';
 import UpdateProperty from './pages/MyProperties/update';
+import Boutiques from "./pages/Boutiques/index";
+
 
 //components
 import NavBar from './components/Navbar'
@@ -47,6 +49,7 @@ function App() {
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Home/>} />
+          <Route path="/boutique" element={<Boutiques/>}/>
           <Route path="/property/:id" element={<ShowProperty/>}/>
           <Route path="/myproperties/:id" element={<MyProperties/>}/>
           <Route path="/createproperty" element={<CreateProperty/>}/>

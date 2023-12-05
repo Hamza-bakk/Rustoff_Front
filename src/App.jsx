@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { userAtom } from './stores/userAtom';
@@ -18,6 +19,7 @@ import ShowProperty from './components/Properties/show';
 import MyProperties from './pages/MyProperties';
 import CreateProperty from './pages/MyProperties/create';
 import UpdateProperty from './pages/MyProperties/update';
+import Boutiques from "./pages/Boutiques/index";
 import LegalSection from './components/Footer/LegalSection';
 import PrivacyPolicySection from './components/Footer/PrivacyPolicySection';
 import RefundPolicySection from './components/Footer/RefundPolicySection';
@@ -50,6 +52,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/property/:id" element={<ShowProperty />} />
+              <Route path="/boutique" element={<Boutiques/>}/>
               <Route path="/myproperties/:id" element={<MyProperties />} />
               <Route path="/createproperty" element={<CreateProperty />} />
               <Route path="updateproperty/:id" element={<UpdateProperty />} />

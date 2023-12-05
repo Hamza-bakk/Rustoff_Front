@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAtom } from 'jotai';
@@ -23,6 +22,7 @@ import Boutiques from "./pages/Boutiques/index";
 import LegalSection from './components/Footer/LegalSection';
 import PrivacyPolicySection from './components/Footer/PrivacyPolicySection';
 import RefundPolicySection from './components/Footer/RefundPolicySection';
+import Faq from './pages/Faq/';
 
 // Components
 import NavBar from './components/Navbar';
@@ -64,6 +64,7 @@ function App() {
               <Route path="/mentions-legales" element={<LegalSection />} />
               <Route path="/politique-confidentialite" element={<PrivacyPolicySection />} />
               <Route path="/politique-remboursement" element={<RefundPolicySection />} />
+              <Route path="/faq" element={<Faq />} />
             </Routes>
           </main>
           <Footer />

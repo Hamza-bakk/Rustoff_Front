@@ -17,6 +17,7 @@ import NewPassword from './pages/Auth/NewPassword'
 import AuthSuccess from './pages/Auth/AuthSuccess'
 import LogoutSuccess from './pages/Auth/LogoutSuccess'
 import Home from './pages/Home';
+import Portfolio from './pages/portfolio';
 import ShowProperty from './components/Properties/show';
 import MyProperties from './pages/MyProperties';
 import CreateProperty from './pages/MyProperties/create';
@@ -56,6 +57,7 @@ function App() {
           <Route path="/newpassword" element={<NewPassword/>} />
           <Route path="/authsuccess" element={<AuthSuccess/>} />
           <Route path="/logoutsuccess" element={<LogoutSuccess/>} />
+          <Route path="/portfolio" element={<Portfolio />} />
         </Routes>
       </Router>
 

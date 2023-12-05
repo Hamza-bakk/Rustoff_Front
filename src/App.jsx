@@ -63,6 +63,7 @@ function App() {
           <Route path="/mentions-legales" element={<LegalSection />} />
           <Route path="/politique-confidentialite" element={<PrivacyPolicySection />} />
           <Route path="/politique-remboursement" element={<RefundPolicySection />} />
+          <Route path="/faq" element={<Faq />} />
           <Route path="/portfolio" element={<Portfolio />} />
         </Routes>
       </Router>

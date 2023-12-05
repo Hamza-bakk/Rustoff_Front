@@ -1,31 +1,33 @@
-import './App.css'
-
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { useAtom } from 'jotai';
-import { userAtom } from "./stores/userAtom";
-import Cookies from 'js-cookie';
 import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useAtom } from 'jotai';
+import { userAtom } from './stores/userAtom';
+import Cookies from 'js-cookie';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-//pages
-import Register from './pages/Auth/Register'
-import Login from './pages/Auth/Login'
-import NewPassword from './pages/Auth/NewPassword'
-import AuthSuccess from './pages/Auth/AuthSuccess'
-import LogoutSuccess from './pages/Auth/LogoutSuccess'
+// Pages
+import Register from './pages/Auth/Register';
+import Login from './pages/Auth/Login';
+import NewPassword from './pages/Auth/NewPassword';
+import AuthSuccess from './pages/Auth/AuthSuccess';
+import LogoutSuccess from './pages/Auth/LogoutSuccess';
 import Home from './pages/Home';
 import Portfolio from './pages/portfolio';
 import ShowProperty from './components/Properties/show';
 import MyProperties from './pages/MyProperties';
 import CreateProperty from './pages/MyProperties/create';
 import UpdateProperty from './pages/MyProperties/update';
+import Boutiques from "./pages/Boutiques/index";
+import LegalSection from './components/Footer/LegalSection';
+import PrivacyPolicySection from './components/Footer/PrivacyPolicySection';
+import RefundPolicySection from './components/Footer/RefundPolicySection';
+import Faq from './pages/Faq/';
 
-//components
-import NavBar from './components/Navbar'
-
+// Components
+import NavBar from './components/Navbar';
+import Footer from './components/Footer';
 
 function App() {
   const [, setUser] = useAtom(userAtom);
@@ -62,7 +64,7 @@ function App() {
       </Router>
 
     </>
-  )
+  );
 }
 
-export default App
+export default App;

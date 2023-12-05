@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAtom } from 'jotai';
@@ -15,12 +14,14 @@ import NewPassword from './pages/Auth/NewPassword';
 import AuthSuccess from './pages/Auth/AuthSuccess';
 import LogoutSuccess from './pages/Auth/LogoutSuccess';
 import Home from './pages/Home';
+import Portfolio from './pages/portfolio';
 import Boutiques from "./pages/Boutiques/index";
 import ShowBoutique from './components/Boutique/show';
 import Carts from './components/Cart/index';
 import LegalSection from './components/Footer/LegalSection';
 import PrivacyPolicySection from './components/Footer/PrivacyPolicySection';
 import RefundPolicySection from './components/Footer/RefundPolicySection';
+import Faq from './pages/Faq/';
 
 
 // Components
@@ -51,9 +52,11 @@ function App() {
           <main>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/property/:id" element={<ShowProperty />} />
               <Route path="/boutique" element={<Boutiques/>}/>
-              <Route path="/cartitems" element={<Carts/>}/>
-              <Route path="/item/:itemId" element={<ShowBoutique />} />
+              <Route path="/myproperties/:id" element={<MyProperties />} />
+              <Route path="/createproperty" element={<CreateProperty />} />
+              <Route path="updateproperty/:id" element={<UpdateProperty />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
               <Route path="/newpassword" element={<NewPassword />} />

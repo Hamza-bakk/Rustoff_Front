@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Importez useNavigate depuis react-router-dom
 import { useAtom } from 'jotai';
 import { userAtom } from '../../stores/userAtom';
 import LogoutButton from '../Auth/Logout';
@@ -7,6 +7,12 @@ import { FaShoppingCart } from "react-icons/fa";
 
 const NavBar = () => {
   const [userInfo] = useAtom(userAtom);
+  const navigate = useNavigate(); // Utilisez useNavigate pour obtenir la fonction de navigation
+
+  const handleCartClick = () => {
+    // Utilisez navigate pour rediriger vers la page du panier
+    navigate('/cartitems');
+  };
 
   return (
     <nav className="bg-gray-800 p-4">
@@ -28,14 +34,14 @@ const NavBar = () => {
             FAQ
           </Link>
         </div>
-        <div className="flex items-center text-center lg:space-x-4 ">
+        <div className="flex items-center text-center lg:space-x-4">
           {userInfo.isLoggedIn ? (
             <>
-            <FaShoppingCart className="text-white text-2xl mr-4 cursor-pointer" onClick={() => { /* Ajoute la logique pour rediriger vers la page du panier ici */ }} />
-            <Link
-              to={`/myproperties/${userInfo.id}`}
-              className="hover:underline font-bold no-underline text-violet-500"
-            >
+              <FaShoppingCart className="text-white text-2xl mr-4 cursor-pointer" onClick={handleCartClick} />
+              <Link
+                to={`/cartitems/${userInfo.id}`}
+                className="hover:underline font-bold no-underline text-violet-500"
+              >
                 Mon Profil
               </Link>
               <LogoutButton />

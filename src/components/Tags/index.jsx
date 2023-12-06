@@ -161,13 +161,13 @@ const Gallery = () => {
           Autres
         </a>
       </section>
-      <div className="image-gallery w-96 flex flex-row space-x-4">
+      <div className="image-gallery grid grid-cols-3 gap-4">
         {selectedCategory && (
-          <div>
+          <>
             {imagesByCategory[selectedCategory].map((image, index) => (
-              <img key={index} src={image} alt={`Image ${index}`} />
+              <img key={index} className="w-full h-auto mb-4" src={image} alt={`Image ${index}`} />
             ))}
-          </div>
+          </>
         )}
       </div>
     </div>

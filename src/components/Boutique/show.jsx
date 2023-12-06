@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useAtom, useSetAtom } from 'jotai';
 import { API_URL } from '../../stores/apiUrl';
+import { userAtom, cartAtom } from '../../stores/userAtom';
 
 const ShowBoutique = () => {
   const { itemId } = useParams();
+  const [user, userId] = useAtom(userAtom);
+  const setCart = useSetAtom(cartAtom);
   const navigate = useNavigate();
   const [item, setItem] = useState({});
   const [quantity, setQuantity] = useState(1);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,12 +33,31 @@ const ShowBoutique = () => {
   }, [itemId]);
 
   const addToCart = () => {
-    console.log('navigate avant:', navigate);
-    console.log(`Ajouter ${quantity} ${item.title} au panier.`);
-    navigate('/cartitems');
+    console.log('Current user:', user);
+    console.log('Current userId:', userId);
+  
+    if (userId) {
+      // Utilisez userId pour gérer les détails du panier liés à l'utilisateur
+      navigate(`/cartitems/${userId}`);
+    
+      setCart((prevCart) => {
+        const existingProductIndex = prevCart.findIndex((cartItem) => cartItem.id === item.id);
+  
+        if (existingProductIndex >= 0) {
+          const updatedCart = [...prevCart];
+          updatedCart[existingProductIndex].quantity += 1;
+          return updatedCart;
+        } else {
+          return [...prevCart, { ...item, quantity: 1 }];
+        }
+      });
+    } else {
+      console.error('User not logged in or userId is not defined');
+      // Gérez le cas où l'utilisateur n'est pas connecté
+    }
   };
   
-
+  
   return (
     <section className="p-2">
       <div className="rounded-lg shadow-md overflow-hidden bg-gray-800 mt-4 mb-4 mx-2">
@@ -61,7 +85,7 @@ const ShowBoutique = () => {
               <input
                 type="number"
                 name="quantity"
-                value={quantity}
+                value={quantity || ''}
                 onChange={(e) => setQuantity(e.target.value)}
                 min="1"
                 className="w-12 text-center border rounded-md text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl"

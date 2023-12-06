@@ -22,6 +22,8 @@ import LegalSection from './components/Footer/LegalSection';
 import PrivacyPolicySection from './components/Footer/PrivacyPolicySection';
 import RefundPolicySection from './components/Footer/RefundPolicySection';
 import Faq from './pages/Faq/';
+import Profile from './pages/Profile/';
+
 
 
 // Components
@@ -65,6 +67,7 @@ function App() {
             <Route path="/politique-remboursement" element={<RefundPolicySection />} />
             <Route path="/faq" element={<Faq />} />
             <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/profiles/:userId" element={<Profile />} />
           </Routes>
         </main>
         <Footer />

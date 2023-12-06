@@ -16,7 +16,7 @@ function Login() {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
+  
     try {
       const response = await fetch(API_URL + '/users/sign_in', {
         method: 'POST',
@@ -30,22 +30,27 @@ function Login() {
           },
         }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
-
+  
         Cookies.set('token', response.headers.get('Authorization'));
         Cookies.set('id', data.user.id);
-
+  
+        // Ici, vous devriez également récupérer le cartId depuis les données de l'utilisateur
+        const cartId = data.user.cartId;
+        console.log(cartId)
+  
         setUser({
           isLoggedIn: true,
           token: response.headers.get('Authorization'),
           id: data.user.id,
+          cartId: cartId,
         });
-
+  
         // Afficher une alerte de succès
-        toast.success('Connexion réussie !', { autoClose: 3000 }); // L'alerte se fermera automatiquement après 3 secondes
-
+        toast.success('Connexion réussie !', { autoClose: 3000 });
+  
         // Rediriger vers la page d'accueil
         navigate('/');
         console.log('Authentification réussie');
@@ -57,7 +62,7 @@ function Login() {
       setError('Une erreur s\'est produite');
     }
   };
-
+  
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-md">

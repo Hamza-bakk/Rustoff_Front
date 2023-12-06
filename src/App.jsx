@@ -17,7 +17,7 @@ import Home from './pages/Home';
 import Boutiques from "./pages/Boutiques/index";
 import ShowBoutique from './components/Boutique/show';
 import Portfolio from './pages/Portfolio';
-import Carts from './components/Cart/index';
+import Cart from './components/Cart/index';
 import LegalSection from './components/Footer/LegalSection';
 import PrivacyPolicySection from './components/Footer/PrivacyPolicySection';
 import RefundPolicySection from './components/Footer/RefundPolicySection';
@@ -55,7 +55,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home/>} />
             <Route path="/boutique" element={<Boutiques/>}/>
-            <Route path="/cartitems" element={<Carts/>}/>
+            <Route path="/cartitems/:userId" element={<Cart />} />
             <Route path="/item/:itemId" element={<ShowBoutique />} />
             <Route path="/register" element={<Register/>} />
             <Route path="/login" element={<Login/>} />

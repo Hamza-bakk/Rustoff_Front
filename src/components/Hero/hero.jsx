@@ -1,5 +1,5 @@
 import BG from '/src/assets/plaine_2.png';
-import { IoIosMail } from "react-icons/io";
+import { IoIosMail, IoIosPaper } from "react-icons/io";
 
 const Hero = () => {
   return (
@@ -25,8 +25,8 @@ const Hero = () => {
             <a href="mailto:rustgraph@gmail.com" className="text-white flex no-underline items-center px-8 py-3 m-2 text-lg font-semibold rounded bg-gray-800 border-gray-900 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-gray-900 hover:text-violet-500">
               <IoIosMail className="mr-2" /> Contact
             </a>
-            <button className="block px-8 py-3 m-2 text-lg font-semibold rounded bg-violet-400 text-gray-900 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-violet-500 hover:text-gray-100">
-              <i className="fa-solid fa-file-invoice-dollar mr-2"></i> Devis
+            <button className="flex items-center px-8 py-3 m-2 text-lg font-semibold rounded bg-violet-400 text-gray-900 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-violet-500 hover:text-gray-100">
+              <IoIosPaper className="mr-2" /> Devis
             </button>
           </div>
         </div>

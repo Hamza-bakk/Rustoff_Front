@@ -2,46 +2,73 @@ import { useState, useEffect } from 'react';
 import { API_URL } from "../../stores/apiUrl";
 import BannerProfile from '../../assets/images/illustrations/jap.png';
 import Avatar from '../../assets/images/rust.png';
+import { useParams } from 'react-router-dom';
 
 const Profile = () => {
-  const [user, setUser] = useState({});
+ const { userId } = useParams();
+ const [user, setUser] = useState({});
+ const [token, setToken] = useState('');
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await fetch(API_URL + "/profiles/id");
-        const data = await response.json();
-        setUser(data);
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
-      }
-    };
+ const fetchUserProfile = async () => {
+  try {
+    const response = await fetch(API_URL + "/profiles/" + userId);
 
-    fetchUserProfile();
-  }, []);
+    // Log de la réponse
+    console.log('Response:', response);
 
-  const deleteUser = async () => {
-    try {
-      const response = await fetch(API_URL + "/profiles/id", {
+    if (response.status === 204) {
+      console.log('No content');
+      // Aucun contenu à traiter ici, pas besoin de lire le JSON
+      setToken('');
+      return;
+    }
+
+    const data = await response.json();
+    setUser(data);
+
+    // Log du token
+    console.log('Token:', data.token);
+
+    setToken(data.token);
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+  }
+};
+ 
+ const deleteUser = async () => {
+  try {
+    // Attend que fetchUserProfile soit terminé
+    await fetchUserProfile();
+ 
+    console.log("User ID to delete:", userId);
+ 
+    // Vérifie si le token existe avant de l'utiliser dans la requête DELETE
+    if (token && token !== 'undefined') {
+      const response = await fetch(API_URL + "/profiles/" + userId, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          // Ajoutez les en-têtes nécessaires, par exemple, le jeton d'authentification
-          Authorization: `Bearer ${user.token}`, // Assurez-vous que le token est accessible depuis l'objet user
+          Authorization: `Bearer ${token}`,
         },
       });
-
+ 
+      console.log("DELETE Headers:", {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      });
+ 
       if (response.ok) {
-        // Suppression réussie, effectuez les actions nécessaires (par exemple, redirigez l'utilisateur vers la page de déconnexion)
         console.log("Account deleted successfully");
       } else {
-        // Gérez les erreurs de suppression du compte
         console.error("Error deleting user account:", response.statusText);
       }
-    } catch (error) {
-      console.error("Error deleting user account:", error);
+    } else {
+      console.error("Token is empty or undefined");
     }
-  };
+  } catch (error) {
+    console.error("Error deleting user account:", error);
+  }
+ };
 
   return (
     <section className="max-w-2xl mx-auto mt-8 bg-gray-800 shadow-xl rounded-lg text-gray-900">

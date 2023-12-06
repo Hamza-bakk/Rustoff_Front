@@ -42,7 +42,7 @@ const NavBar = () => {
           {userInfo.isLoggedIn ? (
             <>
               <FaShoppingCart className="text-white text-2xl mr-4 cursor-pointer" onClick={handleCartClick} />
-              <Link to={`/profiles/id`} onClick={handleProfileClick} className="hover:underline font-bold no-underline text-violet-500">
+              <Link to={`/profiles/${userInfo.id}`} onClick={handleProfileClick} className="hover:underline font-bold no-underline text-violet-500">
                 Mon Profil
               </Link>
               <LogoutButton />

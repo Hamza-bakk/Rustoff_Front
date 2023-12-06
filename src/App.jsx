@@ -67,7 +67,7 @@ function App() {
             <Route path="/politique-remboursement" element={<RefundPolicySection />} />
             <Route path="/faq" element={<Faq />} />
             <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/profiles/id" element={<Profile />} />
+            <Route path="/profiles/:userId" element={<Profile />} />
           </Routes>
         </main>
         <Footer />

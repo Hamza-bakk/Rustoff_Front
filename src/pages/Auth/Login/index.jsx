@@ -8,11 +8,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
-  const [, setUser] = useAtom(userAtom);
+  const [user, setUser] = useAtom(userAtom);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+ 
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -22,6 +23,7 @@ function Login() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
         },
         body: JSON.stringify({
           user: {
@@ -37,23 +39,22 @@ function Login() {
         Cookies.set('token', response.headers.get('Authorization'));
         Cookies.set('id', data.user.id);
   
-        // Ici, vous devriez également récupérer le cartId depuis les données de l'utilisateur
         const cartId = data.user.cartId;
-        console.log(cartId)
   
-        setUser({
+        setUser((prevUser) => ({
+          ...prevUser,
           isLoggedIn: true,
           token: response.headers.get('Authorization'),
           id: data.user.id,
           cartId: cartId,
-        });
+        }));
   
         // Afficher une alerte de succès
         toast.success('Connexion réussie !', { autoClose: 3000 });
-  
-        // Rediriger vers la page d'accueil
+
         navigate('/');
         console.log('Authentification réussie');
+        console.log(`L'id de l'utilisateur est ${data.user.id}`);
         console.log(response.headers.get('Authorization'));
       } else {
         setError('Identifiants invalides');

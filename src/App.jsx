@@ -23,6 +23,7 @@ import PrivacyPolicySection from './components/Footer/PrivacyPolicySection';
 import RefundPolicySection from './components/Footer/RefundPolicySection';
 import Faq from './pages/Faq/';
 import Profile from './pages/Profile/';
+import Quotes from './pages/Quotes';
 
 
 
@@ -68,6 +69,8 @@ function App() {
             <Route path="/faq" element={<Faq />} />
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/profiles/:userId" element={<Profile />} />
+            <Route path="/quotes" element={<Quotes />} />
+
           </Routes>
         </main>
         <Footer />

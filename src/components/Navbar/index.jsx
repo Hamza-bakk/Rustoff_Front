@@ -10,7 +10,7 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const handleCartClick = () => {
-    navigate('/cartitems/${userId}');
+    navigate('/cart/${userId}');
   };
 
   const handleProfileClick = () => {

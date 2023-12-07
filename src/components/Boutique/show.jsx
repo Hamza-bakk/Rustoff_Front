@@ -33,13 +33,14 @@ const ShowBoutique = () => {
   }, [itemId]);
 
   const addToCart = () => {
-    console.log('Current user:', user);
-    console.log('Current userId:', userId);
+    console.log('Utilisateur actuel:', user);
+    console.log('Identifiant d\'utilisateur actuel:', userId);
+    console.log('le Beereer est:', user.token);
   
-    if (userId) {
+    if (userId && user.token) {
       // Utilisez userId pour gérer les détails du panier liés à l'utilisateur
-      navigate(`/cartitems/${userId}`);
-    
+      navigate(`/cart/${userId}`);
+  
       setCart((prevCart) => {
         const existingProductIndex = prevCart.findIndex((cartItem) => cartItem.id === item.id);
   
@@ -52,12 +53,12 @@ const ShowBoutique = () => {
         }
       });
     } else {
-      console.error('User not logged in or userId is not defined');
+      console.error('Utilisateur non connecté ou identifiant d\'utilisateur non défini');
       // Gérez le cas où l'utilisateur n'est pas connecté
     }
   };
-  
-  
+
+
   return (
     <section className="p-2">
       <div className="rounded-lg shadow-md overflow-hidden bg-gray-800 mt-4 mb-4 mx-2">

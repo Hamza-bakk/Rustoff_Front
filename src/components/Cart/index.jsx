@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSetAtom } from 'jotai';
+import { useSetAtom, useAtom } from 'jotai';  // Import useSetAtom from jotai
 import { API_URL } from '../../stores/apiUrl';
-import { cartAtom } from '../../stores/userAtom';
+import { cartAtom, userAtom } from '../../stores/userAtom';// Import userAtom
 
 const Cart = () => {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
-  const [userId] = useState(null);
+  const [user] = useAtom(userAtom); // Use useAtom instead of useSetAtom for userAtom
+  const userId = user.id;
   const setCart = useSetAtom(cartAtom);
 
   useEffect(() => {
@@ -17,26 +18,29 @@ const Cart = () => {
   }, []);
 
   const fetchCartDetails = async () => {
-  try {
-    const response = await fetch(`${API_URL}/cartitems/${userId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      setCartItems(data.cartItems);
-      setCartTotal(data.cartTotal);
-    } else {
-      throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
+    try {
+      const response = await fetch(`${API_URL}/cart/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
+        },
+        credentials: 'include',
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        setCartItems(data.cartItems);
+        setCartTotal(data.cartTotal);
+        console.log("User id est", userId); // Fix the console.log
+      } else {
+        throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error('Error during fetchCartDetails:', error);
     }
-  } catch (error) {
-    console.error('Error during fetchCartDetails:', error);
-  }
-};
+  };
+  
 
   const handleDeleteItem = (itemId) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== itemId));
@@ -49,8 +53,6 @@ const Cart = () => {
   const handleCheckout = () => {
     navigate('/checkout');
   };
-
-
 
   return (
     <section className="container mx-auto mt-10">

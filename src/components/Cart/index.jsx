@@ -1,47 +1,57 @@
-import { useState, useEffect} from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useAtom, useSetAtom } from 'jotai';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAtom, useSetAtom } from 'jotai';  // Assurez-vous d'importer useSetAtom
 import { API_URL } from '../../stores/apiUrl';
 import { cartAtom, userAtom } from '../../stores/userAtom';
 
 const Cart = () => {
   const navigate = useNavigate();
-  const [user] = useAtom(userAtom);
+  const [user, setUser] = useAtom(userAtom);
   const [cartItems, setCartItems] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
-  const { userId } = useParams();
   const setCart = useSetAtom(cartAtom);
 
   useEffect(() => {
     // Chargez les détails du panier dès que le composant est monté
-    fetchCartDetails();
-  }, []);
+    if (user.id) {
+      fetchCartDetails();
+    }
+  }, [user.id]);
+  
+  
 
   const fetchCartDetails = async () => {
-  try {
-    const response = await fetch(`${API_URL}/cart/${userId}`, {
-      method: 'GET',
-      headers: {
+    try {
+      if (!user.id) {
+        console.error('User ID is not available');
+        return;
+      }
+  
+      const headers = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${user.token}`,
-      },
-      credentials: 'include',
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      setCartItems(data.cartItems);
-      setCartTotal(data.cartTotal);
-      console.log(data.cartItems);
-      console.log(data.cartTotal);
-    } else {
-      throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
+      };
+  
+      const response = await fetch(`${API_URL}/cart/${user.id}`, {
+        method: 'GET',
+        headers: headers,
+        credentials: 'include',
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        setCartItems(data.cartItems);
+        setCartTotal(data.cartTotal);
+        console.log("User id est", user.id);
+      } else {
+        throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error('Error during fetchCartDetails:', error);
     }
-  } catch (error) {
-    console.error('Error during fetchCartDetails:', error);
-  }
-};
+  };
 
+  
   const handleDeleteItem = (itemId) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== itemId));
   };

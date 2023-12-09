@@ -1,5 +1,3 @@
-import './aboutme.css'
-
 import PP from '/src/assets/rusty.png';
 
 const AboutMe = () => {
@@ -37,8 +35,8 @@ const AboutMe = () => {
               </svg> rustgraph@gmail.com
             </p>
             <p className="pt-4 text-lg text-white">
-              Je suis graphiste depuis plusieurs années. J'utilise le crayon comme la tablette graphique suivant les besoins. 
-              J'aime créer des designs uniques et originaux. Mon objectif est de fournir des visuels de haute 
+              Je suis graphiste depuis plusieurs années. J&apos;utilise le crayon comme la tablette graphique suivant les besoins. 
+              J&apos;aime créer des designs uniques et originaux. Mon objectif est de fournir des visuels de haute 
               qualité qui répondent aux besoins de mes clients.
             </p>
             <div className="pt-8 pb-4">

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom, useSetAtom } from 'jotai';  // Assurez-vous d'importer useSetAtom
-import { API_URL } from '../../stores/apiUrl';
 import { cartAtom, userAtom } from '../../stores/userAtom';
+
+const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 const Cart = () => {
   const navigate = useNavigate();

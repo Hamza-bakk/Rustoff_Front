@@ -1,5 +1,6 @@
 import { Form, Input, Button, Select, message } from 'antd';
-import { API_URL } from '../../stores/apiUrl';
+
+const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 const { Option } = Select;
 

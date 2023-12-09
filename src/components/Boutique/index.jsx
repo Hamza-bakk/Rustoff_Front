@@ -1,6 +1,7 @@
 import { useState, useEffect} from 'react';
-import { API_URL } from "../../stores/apiUrl";
 import { Link } from 'react-router-dom';
+
+const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 const Boutique = () => {
     const [items, setItems] = useState([]);

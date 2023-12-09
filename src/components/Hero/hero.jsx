@@ -19,14 +19,13 @@ const Hero = () => {
               <span className="text-violet-400">3D</span>
             </h1>
             <p className="px-8 text-black text-center font-extrabold mt-8 mb-12 text-lg">
-              Bienvenue chez RustOff, Graphiste et design 3D. Vous retrouverez ma boutique et vous pouvez me contacter pour plus d'informations.
+              Bienvenue chez RustOff, Graphiste et design 3D. Vous retrouverez ma boutique et vous pouvez me contacter pour plus d&apos;informations.
             </p>
           </div>
           <div className="flex justify-center items-center">
             <a href="mailto:rustgraph@gmail.com" className="text-white flex no-underline items-center px-8 py-3 m-2 text-lg font-semibold rounded bg-gray-800 border-gray-900 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-gray-900 hover:text-violet-500">
               <IoIosMail className="mr-2" /> Contact
             </a>
-            {/* Utilise Link pour rediriger vers la page de création des devis */}
             <Link to="/quotes" className="flex items-center px-8 py-3 m-2 text-lg font-semibold rounded bg-violet-400 text-gray-900 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-violet-500 hover:text-gray-100">
               <IoIosPaper className="mr-2" /> Devis
             </Link>

@@ -50,7 +50,7 @@ const NavBar = () => {
           ) : (
             <>
               <Link to="/register" className="hover:underline text-white no-underline">
-                S'inscrire
+              S&apos;inscrire
               </Link>
               <Link to="/login" className="hover:underline text-white no-underline">
                 Se connecter

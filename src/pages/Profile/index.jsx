@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
-import { API_URL } from "../../stores/apiUrl";
+import { useState } from 'react';
 import BannerProfile from '../../assets/images/illustrations/jap.png';
 import Avatar from '../../assets/images/rust.png';
 import { useParams } from 'react-router-dom';
+
+const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 const Profile = () => {
  const { userId } = useParams();

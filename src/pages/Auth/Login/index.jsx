@@ -3,9 +3,12 @@ import { useAtom } from 'jotai';
 import { userAtom } from '../../../stores/userAtom';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
-import { API_URL } from '../../../stores/apiUrl';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import './login.css'
+
+const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 function Login() {
   const [user, setUser] = useAtom(userAtom);
@@ -19,7 +22,7 @@ function Login() {
     event.preventDefault();
   
     try {
-      const response = await fetch(API_URL + '/users/sign_in', {
+      const response = await fetch(`${API_URL}/users/sign_in`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -65,11 +68,11 @@ function Login() {
   };
   
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-semibold mb-6">Se connecter</h2>
+    <div className="form-container">
+      <div className="p-8 rounded  w-full max-w-md">
+        <h2 className="text-2xl text-center font-bold mb-6">Se connecter :</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} >
           <div className="mb-4">
             <input
               type="text"
@@ -78,6 +81,7 @@ function Login() {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
               required
+              
             />
           </div>
           <div className="mb-4">

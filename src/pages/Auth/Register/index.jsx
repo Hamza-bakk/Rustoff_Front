@@ -3,7 +3,8 @@ import { useAtom } from 'jotai';
 import { userAtom } from '../../../stores/userAtom';
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie';
-import { API_URL } from '../../../stores/apiUrl';
+
+const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 
 function Register () {

@@ -25,18 +25,35 @@ import Faq from './pages/Faq/';
 import Profile from './pages/Profile/';
 import Quotes from './pages/Quotes/';
 
-
 // Components
 import NavBar from './components/Navbar';
 import Footer from './components/Footer';
 
+// Admin Dashboard
+import Admin from './pages/Admin/admin';
+import Sidebar from './components/Dashboard/SideBar';
+import Settings from './components/Dashboard/Settings';
+import Users from './components/Dashboard/Users';
+
+
+// eslint-disable-next-line react/prop-types
+function MainLayout({ children }) {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <NavBar />
+      <ToastContainer />
+      <main>{children}</main>
+      <Footer />
+    </div>
+  );
+}
 
 function App() {
   const [, setUser] = useAtom(userAtom);
-  
+
   useEffect(() => {
     const token = Cookies.get('token');
-    
+
     if (token) {
       setUser({
         isLoggedIn: true,
@@ -44,38 +61,104 @@ function App() {
       });
     }
   }, []);
-  
+
   return (
-    <>
-    <div className="flex flex-col min-h-screen">
-      <Router>
-        <NavBar />
-        <ToastContainer />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home/>} />
-            <Route path="/boutique" element={<Boutiques/>}/>
-            <Route path="/cart/:userId" element={<Cart />} />
-            <Route path="/item/:itemId" element={<ShowBoutique />} />
-            <Route path="/register" element={<Register/>} />
-            <Route path="/login" element={<Login/>} />
-            <Route path="/newpassword" element={<NewPassword/>} />
-            <Route path="/authsuccess" element={<AuthSuccess/>} />
-            <Route path="/logoutsuccess" element={<LogoutSuccess/>} />
-            <Route path="/mentions-legales" element={<LegalSection />} />
-            <Route path="/politique-confidentialite" element={<PrivacyPolicySection />} />
-            <Route path="/politique-remboursement" element={<RefundPolicySection />} />
-            <Route path="/faq" element={<Faq />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/profiles/:userId" element={<Profile />} />
-            <Route path="/quotes" element={<Quotes />} />
-          </Routes>
-        </main>
-        <Footer />
-      </Router>
-    </div>
-  </>
-);
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={<MainLayout><Home /></MainLayout>}
+        />
+        <Route
+          path="/boutique"
+          element={<MainLayout><Boutiques /></MainLayout>}
+        />
+        <Route
+          path="/cart/:userId"
+          element={<MainLayout><Cart /></MainLayout>}
+        />
+        <Route
+          path="/item/:itemId"
+          element={<MainLayout><ShowBoutique /></MainLayout>}
+        />
+        <Route
+          path="/register"
+          element={<MainLayout><Register /></MainLayout>}
+        />
+        <Route
+          path="/login"
+          element={<MainLayout><Login /></MainLayout>}
+        />
+        <Route
+          path="/newpassword"
+          element={<MainLayout><NewPassword /></MainLayout>}
+        />
+        <Route
+          path="/authsuccess"
+          element={<MainLayout><AuthSuccess /></MainLayout>}
+        />
+        <Route
+          path="/logoutsuccess"
+          element={<MainLayout><LogoutSuccess /></MainLayout>}
+        />
+        <Route
+          path="/mentions-legales"
+          element={<MainLayout><LegalSection /></MainLayout>}
+        />
+        <Route
+          path="/politique-confidentialite"
+          element={<MainLayout><PrivacyPolicySection /></MainLayout>}
+        />
+        <Route
+          path="/politique-remboursement"
+          element={<MainLayout><RefundPolicySection /></MainLayout>}
+        />
+        <Route
+          path="/faq"
+          element={<MainLayout><Faq /></MainLayout>}
+        />
+        <Route
+          path="/portfolio"
+          element={<MainLayout><Portfolio /></MainLayout>}
+        />
+        <Route
+          path="/profiles/:userId"
+          element={<MainLayout><Profile /></MainLayout>}
+        />
+        <Route
+          path="/quotes"
+          element={<MainLayout><Quotes /></MainLayout>}
+        />
+
+        {/* Route Admin */}
+        <Route
+          path="/admin/*"
+          element={
+            <div style={{display : 'flex'}}>
+              <Sidebar />
+              {/* Main Content */}
+              <div className="flex-1 p-4" >
+                <Routes>
+                  <Route
+                    index
+                    element={<Admin />}
+                  />
+                  <Route
+                    path="settings"
+                    element={<Settings />}
+                  />
+                  <Route
+                    path="users"
+                    element={<Users />}
+                  />
+                </Routes>
+              </div>
+            </div>
+          }
+        />
+      </Routes>
+    </Router>
+  );
 }
-  
-  export default App;
+
+export default App;

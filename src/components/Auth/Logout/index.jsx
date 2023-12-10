@@ -4,8 +4,7 @@ import { userAtom } from '../../../stores/userAtom';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { message } from 'antd';
 
 function LogoutButton() {
   const [, setUser] = useAtom(userAtom);
@@ -22,16 +21,9 @@ function LogoutButton() {
     Cookies.remove('id');
     navigate('/');
     
-    // Affiche une alerte de déconnexion réussie
-    toast.error('Déconnexion réussie!', {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    // Affiche une notification de déconnexion réussie
+    message.error('Déconnexion réussie !');
+
   };
 
   useEffect(() => {

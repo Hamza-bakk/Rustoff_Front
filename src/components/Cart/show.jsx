@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
-import { API_URL } from '../../stores/apiUrl';
-import { userAtom, cartAtom} from '../../stores/userAtom';
+import { userAtom } from '../../stores/userAtom';
+import { useParams, useNavigate } from 'react-router-dom'; 
+
+const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 const Cart = () => {
+  const { cartId } = useParams(); // Utilisez useParams ici pour obtenir cartId du chemin d'accès
   const navigate = useNavigate();
   const [user] = useAtom(userAtom);
-  const [cartId] = userAtom(cartAtom);
   const [cartItems, setCartItems] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
 
-
-
   useEffect(() => {
+    console.log('user:', user); // Vérifiez les valeurs de l'utilisateur ici
+    console.log('cartId:', cartId); // Vérifiez les valeurs du cartId ici
+  
     const fetchData = async () => {
       if (user.id && user.token && cartId) {
         try {
@@ -26,10 +28,11 @@ const Cart = () => {
         navigate('/login');
       }
     };
-
+  
     fetchData();
   }, [user.id, user.token, cartId]);
 
+  
   const fetchCartDetails = async () => {
     try {
         console.log("cartId:", cartId);

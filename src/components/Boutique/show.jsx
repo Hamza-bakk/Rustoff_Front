@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAtom, useSetAtom } from 'jotai';
+import Cookies from 'js-cookie';
 import { userAtom, cartAtom } from '../../stores/userAtom';
 
 const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 const ShowBoutique = () => {
   const { itemId } = useParams();
-  const [user, userId] = useAtom(userAtom);
+  const [user] = useAtom(userAtom);
   const [cartId] = useAtom(cartAtom);
   const setCart = useSetAtom(cartAtom);
   const navigate = useNavigate();
   const [item, setItem] = useState({});
-  const [quantity, setQuantity] = useState(1);
-
+  const [quantity, setQuantity] = useState(1); // Initialisez la quantité à 1
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,30 +36,33 @@ const ShowBoutique = () => {
 
   const addToCart = () => {
     console.log('Utilisateur actuel:', user);
-    console.log('Id de la Cart', cartId);
-    console.log('le Beereer est:', user.token);
+    const storedCartId = Cookies.get('cartId');
   
-    if (userId && user.token) {
-      // Utilisez userId pour gérer les détails du panier liés à l'utilisateur
-      navigate(`/cart/${cartId}`);
+    if (user.id && user.token && storedCartId) {
+      console.log('Conditions remplies pour ajouter au panier. Cart ID:', storedCartId);
   
       setCart((prevCart) => {
-        const existingProductIndex = prevCart.findIndex((cartItem) => cartItem.id === item.id);
+        const cartArray = prevCart.cart || [];
+        const existingProductIndex = cartArray.findIndex((cartItem) => cartItem.id === item.id);
   
         if (existingProductIndex >= 0) {
-          const updatedCart = [...prevCart];
-          updatedCart[existingProductIndex].quantity += 1;
-          return updatedCart;
+          const updatedCart = [...cartArray];
+          updatedCart[existingProductIndex].quantity += quantity;
+          console.log('Panier mis à jour:', updatedCart);
+          return { ...prevCart, cart: updatedCart };
         } else {
-          return [...prevCart, { ...item, quantity: 1 }];
+          const newCartItem = { ...item, quantity: quantity };
+          console.log('Nouvel article ajouté au panier:', newCartItem);
+          return { ...prevCart, cart: [...cartArray, newCartItem] };
         }
       });
+  
+      navigate(`/cart/${storedCartId}`);
     } else {
       console.error('Utilisateur non connecté ou identifiant d\'utilisateur non défini');
-      // Gérez le cas où l'utilisateur n'est pas connecté
     }
   };
-
+  
 
   return (
     <section className="p-2">
@@ -115,3 +118,4 @@ const ShowBoutique = () => {
 };
 
 export default ShowBoutique;
+

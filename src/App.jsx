@@ -76,7 +76,7 @@ function App() {
           element={<MainLayout><Boutiques /></MainLayout>}
         />
         <Route
-          path="/cart/:userId"
+          path="/cart/:id"
           element={<MainLayout><Cart /></MainLayout>}
         />
         <Route

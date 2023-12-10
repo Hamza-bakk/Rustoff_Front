@@ -32,9 +32,11 @@ import Footer from './components/Footer';
 // Admin Dashboard
 import Admin from './pages/Admin/admin';
 import Sidebar from './components/Dashboard/SideBar';
-import Settings from './components/Dashboard/Settings';
-import Users from './components/Dashboard/Users';
-
+import QuotesAdmin from './components/Dashboard/QuotesAdmin';
+import UsersAdmin from './components/Dashboard/UsersAdmin';
+import OrdersAdmin from './components/Dashboard/OrdersAdmin';
+import StoreAdmin from './components/Dashboard/StoreAdmin';
+import ProductsAdmin from './components/Dashboard/ProductsAdmin';
 
 // eslint-disable-next-line react/prop-types
 function MainLayout({ children }) {
@@ -144,12 +146,24 @@ function App() {
                     element={<Admin />}
                   />
                   <Route
-                    path="settings"
-                    element={<Settings />}
+                    path="quotes"
+                    element={<QuotesAdmin />}
                   />
                   <Route
                     path="users"
-                    element={<Users />}
+                    element={<UsersAdmin />}
+                  />
+                  <Route
+                    path="orders"
+                    element={<OrdersAdmin />}
+                  />
+                  <Route
+                    path="store"
+                    element={<StoreAdmin />}
+                  />
+                  <Route
+                    path="products"
+                    element={<ProductsAdmin />}
                   />
                 </Routes>
               </div>

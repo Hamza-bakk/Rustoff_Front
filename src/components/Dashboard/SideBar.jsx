@@ -1,7 +1,12 @@
-import {PieChartOutlined,} from '@ant-design/icons';
 import { Menu, ConfigProvider, Divider} from 'antd';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/rust.png';
+import { FaUsers } from "react-icons/fa";
+import { HiPencilSquare } from "react-icons/hi2";
+import { FaImage } from "react-icons/fa6";
+import { FaStore } from "react-icons/fa6";
+import { FaFileInvoiceDollar } from "react-icons/fa6";
+import { LuLayoutDashboard } from "react-icons/lu";
 
 
 
@@ -15,18 +20,47 @@ const getItem = (label, key, icon, children) => {
 }
 const items = [
   getItem(
-    <Link to={'./users'}>
-      Users
+    <Link to={'./'}>
+      Dashboard
     </Link>,
-    'users',
-    <PieChartOutlined />,
+    'admin',
+    <LuLayoutDashboard />,
   ),
   getItem(
-    <Link to={'./settings'}>
-      Settings
+    <Link to={'./users'}>
+      Utilisateurs
     </Link>,
-    'settings',
-    <PieChartOutlined />,
+    'users',
+    <FaUsers />,
+  ),
+  getItem(
+    <Link to={'./quotes'}>
+      Devis
+    </Link>,
+    'quotes',
+    <HiPencilSquare />,
+  ),
+  getItem(
+    <Link to={'./products'}>
+      Produits
+    </Link>,
+    'products',
+    <FaImage />,
+  ),
+  getItem(
+    <Link to={'./orders'}>
+      Commandes
+    </Link>,
+    'orders',
+    <FaFileInvoiceDollar />
+,
+  ),
+  getItem(
+    <Link to={'./store'}>
+      Boutiques
+    </Link>,
+    'store',
+    <FaStore />,
   ),
   getItem(
     <Divider />

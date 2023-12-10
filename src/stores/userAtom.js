@@ -6,6 +6,7 @@ export const userAtom = atom({
   id: "",
   token: "",
   isLoggedIn: false,
+  isAdmin: false,
   cartId: undefined,
 });
 

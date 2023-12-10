@@ -51,7 +51,9 @@ function MainLayout({ children }) {
 }
 
 function App() {
-  const [, setUser] = useAtom(userAtom);
+  const [ ,setUser] = useAtom(userAtom);
+
+
 
   useEffect(() => {
     const token = Cookies.get('token');

@@ -1,0 +1,18 @@
+.titleContainer,
+.linkContainer {
+  margin-bottom: 1rem;
+}
+
+.titlePortfolio,
+.linkCategory {
+  padding: 0.5rem 2rem;
+}
+
+.galleryContainer {
+  overflow-y: scroll;
+  height: 70vh;
+}
+
+.galleryContainer::-webkit-scrollbar {
+  display: none;
+}

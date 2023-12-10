@@ -36,32 +36,35 @@ function Login() {
         }),
       });
   
-      if (response.ok) {
-        const data = await response.json();
-  
-        Cookies.set('token', response.headers.get('Authorization'));
-        Cookies.set('id', data.user.id);
-  
-        const cartId = data.user.cartId;
-  
-        setUser((prevUser) => ({
-          ...prevUser,
-          isLoggedIn: true,
-          token: response.headers.get('Authorization'),
-          id: data.user.id,
-          cartId: cartId,
-        }));
-  
-        // Afficher une alerte de succès
-        toast.success('Connexion réussie !', { autoClose: 3000 });
+     if (response.ok) {
+  const data = await response.json();
 
-        navigate('/');
-        console.log('Authentification réussie');
-        console.log(`L'id de l'utilisateur est ${data.user.id}`);
-        console.log(response.headers.get('Authorization'));
-      } else {
-        setError('Identifiants invalides');
-      }
+  Cookies.set('token', response.headers.get('Authorization'));
+  Cookies.set('id', data.user.id);
+
+  const cartId = data.user.cartId;
+  const isAdmin = data.user.admin || false;
+
+  setUser((prevUser) => ({
+    ...prevUser,
+    isLoggedIn: true,
+    token: response.headers.get('Authorization'),
+    id: data.user.id,
+    cartId: cartId,
+    isAdmin: isAdmin,
+    test : 'test'
+  }));
+
+  // Afficher une alerte de succès
+  toast.success('Connexion réussie !', { autoClose: 3000 });
+
+  navigate('/');
+  console.log('Authentification réussie');
+  console.log(`L'id de l'utilisateur est ${data.user.id}`);
+  console.log(response.headers.get('Authorization'));
+} else {
+  setError('Identifiants invalides');
+}
     } catch (error) {
       setError('Une erreur s\'est produite');
     }

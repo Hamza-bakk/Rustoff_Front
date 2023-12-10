@@ -68,104 +68,117 @@ import rust from '../../assets/images/rust.png';
 import rusty from '../../assets/images/rusty.png';
 import tatoo_dragon from '../../assets/images/tatoo_dragon.png';
 
-
+import './Tags.css';
 
 const Gallery = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const imagesByCategory = {
+    '3d': [
+      IMG_0100,
+      IMG_0113,
+      IMG_0123,
+      IMG_0126,
+      IMG_0127,
+      IMG_0146,
+      IMG_0151,
+      IMG_01111,
+    ],
+    avatars: [hfhg, img_22, img_23, img_24, img_25, img_26, img_27],
+    collab: [img_30, casque, mexique],
+    illustrations: [
+      arbre,
+      bird,
+      canyon,
+      desert,
+      forest,
+      IMG_0071,
+      jap,
+      nuit_noir,
+      plaine,
+    ],
+    logo: [hellistra1, malife2, malife3],
+    pokemon: [
+      evo,
+      img_1,
+      img_2,
+      img_3,
+      img_9,
+      img_10,
+      magi,
+      Mew_two_neon,
+      poke,
+    ],
+    tattoo: [fond_tatoo_pivoine, tatoo_cerise, tatoo],
+    twitch: [img_6, img_8, img_11, img_13, img_14, img_15, img_19, sala],
+    autres: [
+      IMG_0057,
+      IMG_0059,
+      IMG_0068,
+      IMG_0069,
+      la3d_1,
+      canyon2,
+      dash,
+      desert2,
+      hero,
+      image4,
+      image5,
+      image6,
+      img_12,
+      IMG_01462,
+      rust,
+      rusty,
+      tatoo_dragon,
+    ],
+  };
+
+  const [selectedCategory, setSelectedCategory] = useState('3d');
 
   const handleLinkClick = (category) => {
     setSelectedCategory(category);
   };
 
-  const imagesByCategory = {
-    '3d': [IMG_0100, IMG_0113, IMG_0123, IMG_0126, IMG_0127, IMG_0146, IMG_0151, IMG_01111],
-    'avatars': [hfhg, img_22, img_23, img_24, img_25, img_26, img_27], 
-    'collab': [img_30, casque, mexique],
-    'illustrations': [arbre, bird, canyon, desert, forest, IMG_0071, jap, nuit_noir, plaine],
-    'logo': [hellistra1, malife2, malife3],
-    'pokemon': [evo, img_1, img_2, img_3, img_9, img_10, magi, Mew_two_neon, poke],
-    'tattoo': [fond_tatoo_pivoine, tatoo_cerise, tatoo],
-    'twitch': [img_6, img_8, img_11, img_13, img_14, img_15, img_19, sala],
-    'autres': [IMG_0057, IMG_0059, IMG_0068, IMG_0069, la3d_1, canyon2, dash, desert2, hero, image4, image5, image6, img_12, IMG_01462, rust, rusty, tatoo_dragon ],
-  };
+  const generateLink = (category, label) => (
+    <a
+      key={category}
+      className="text-1xl font-bold border-4 border-gray-500 rounded inline-block linkCategory"
+      onClick={() => handleLinkClick(category)}
+      href="#"
+    >
+      {label}
+    </a>
+  );
+
+  const categories = [
+    { category: '3d', label: '3D' },
+    { category: 'avatars', label: 'Avatars' },
+    { category: 'collab', label: 'Collab' },
+    { category: 'illustrations', label: 'Illustrations' },
+    { category: 'logo', label: 'Logo' },
+    { category: 'pokemon', label: 'Pokemon' },
+    { category: 'tattoo', label: 'Tattoo' },
+    { category: 'twitch', label: 'Twitch' },
+    { category: 'autres', label: 'Autres' },
+  ];
 
   return (
     <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-24">
-      <section className="container mx-auto flex items-center justify-center mt-20 mb-10">
-        <h1 className="text-4xl font-bold p-4 border-4 border-gray-500 rounded inline-block">
+      <section className="container mx-auto flex items-center justify-center titleContainer">
+        <h1 className="text-3xl font-bold border-4 border-gray-500 rounded inline-block titlePortfolio">
           Portfolio :
         </h1>
       </section>
-      <section className="container mx-auto flex space-x-4 items-center justify-center mt-20 mb-10">
-      <a
-          className="text-2xl font-bold p-4 border-4 border-gray-500 rounded inline-block"
-          onClick={() => handleLinkClick('3d')}
-          href="#"
-        >
-          3D
-        </a>
-        <a
-          className="text-2xl font-bold p-4 border-4 border-gray-500 rounded inline-block"
-          onClick={() => handleLinkClick('avatars')}
-          href="#"
-        >
-          Avatars
-        </a>
-        <a
-          className="text-2xl font-bold p-4 border-4 border-gray-500 rounded inline-block"
-          onClick={() => handleLinkClick('collab')}
-          href="#"
-        >
-          Collab
-        </a>
-        <a
-          className="text-2xl font-bold p-4 border-4 border-gray-500 rounded inline-block"
-          onClick={() => handleLinkClick('illustrations')}
-          href="#"
-        >
-          Illustrations
-        </a>
-        <a
-          className="text-2xl font-bold p-4 border-4 border-gray-500 rounded inline-block"
-          onClick={() => handleLinkClick('logo')}
-          href="#"
-        >
-          Logo
-        </a>
-        <a
-          className="text-2xl font-bold p-4 border-4 border-gray-500 rounded inline-block"
-          onClick={() => handleLinkClick('pokemon')}
-          href="#"
-        >
-          Pokemon
-        </a>
-        <a
-          className="text-2xl font-bold p-4 border-4 border-gray-500 rounded inline-block"
-          onClick={() => handleLinkClick('tattoo')}
-          href="#"
-        >
-          tattoo
-        </a>
-        <a
-          className="text-2xl font-bold p-4 border-4 border-gray-500 rounded inline-block"
-          onClick={() => handleLinkClick('twitch')}
-          href="#"
-        >
-          Twitch
-        </a>
-        <a
-          className="text-2xl font-bold p-4 border-4 border-gray-500 rounded inline-block"
-          onClick={() => handleLinkClick('autres')}
-          href="#"
-        >
-          Autres
-        </a>
+      <section className="container mx-auto flex space-x-4 items-center justify-center linkContainer">
+        {categories.map(({ category, label }) => generateLink(category, label))}
       </section>
-      <div className="image-gallery grid grid-cols-3 gap-4">
+      <div className="image-gallery grid grid-cols-3 gap-4 galleryContainer">
         {selectedCategory && (
           <>
             {imagesByCategory[selectedCategory].map((image, index) => (
-              <img key={index} className="w-full h-auto mb-4" src={image} alt={`Image ${index}`} />
+              <img
+                key={index}
+                className="w-full h-auto mb-4"
+                src={image}
+                alt={`Image ${index}`}
+              />
             ))}
           </>
         )}

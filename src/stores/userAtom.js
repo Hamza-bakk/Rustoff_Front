@@ -8,6 +8,7 @@ export const userAtom = atom({
   isLoggedIn: false,
   isAdmin: false,
   cartId: "",
+  cart: [],
 });
 
 export const cartAtom = atom([]);

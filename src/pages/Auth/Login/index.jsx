@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import { Button, Checkbox, Form, Input, message } from 'antd';
 import Cookies from 'js-cookie';
 import { useAtom } from 'jotai';
-import { userAtom, cartAtom } from '../../../stores/userAtom';
+import { userAtom } from '../../../stores/userAtom';
 import { useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
@@ -37,7 +36,6 @@ const LoginForm = () => {
         Cookies.set('id', data.user.id);
         Cookies.set('cartId', response.data.id);
 
-        const cartId = data.user.cartId;
         const isAdmin = data.user.admin || false;
 
         setUser((prevUser) => ({

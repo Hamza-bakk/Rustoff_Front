@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button, Checkbox, Form, Input, message } from 'antd';
 import Cookies from 'js-cookie';
 import { useAtom } from 'jotai';
-import { userAtom } from '../../../stores/userAtom';
+import { userAtom, cartAtom } from '../../../stores/userAtom';
 import { useNavigate } from 'react-router-dom';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
@@ -35,6 +35,7 @@ const LoginForm = () => {
 
         Cookies.set('token', response.headers.get('Authorization'));
         Cookies.set('id', data.user.id);
+        Cookies.set('cartId', response.data.id);
 
         const cartId = data.user.cartId;
         const isAdmin = data.user.admin || false;
@@ -44,7 +45,7 @@ const LoginForm = () => {
           isLoggedIn: true,
           token: response.headers.get('Authorization'),
           id: data.user.id,
-          cartId: cartId,
+          cartId: response.data.cartId,
           isAdmin: isAdmin,
           test: 'test',
         }));
@@ -56,6 +57,7 @@ const LoginForm = () => {
         console.log('Authentification réussie');
         console.log(`L'id de l'utilisateur est ${data.user.id}`);
         console.log(response.headers.get('Authorization'));
+        console.log(`L'id de Cart est ${response.cartId}`);
       } else {
         // Afficher un message d'erreur
         message.error('Identifiants invalides');

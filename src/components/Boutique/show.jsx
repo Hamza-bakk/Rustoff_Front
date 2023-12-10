@@ -8,6 +8,7 @@ const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 const ShowBoutique = () => {
   const { itemId } = useParams();
   const [user, userId] = useAtom(userAtom);
+  const [cartId] = useAtom(cartAtom);
   const setCart = useSetAtom(cartAtom);
   const navigate = useNavigate();
   const [item, setItem] = useState({});
@@ -35,12 +36,12 @@ const ShowBoutique = () => {
 
   const addToCart = () => {
     console.log('Utilisateur actuel:', user);
-    console.log('Identifiant d\'utilisateur actuel:', userId);
+    console.log('Id de la Cart', cartId);
     console.log('le Beereer est:', user.token);
   
     if (userId && user.token) {
       // Utilisez userId pour gérer les détails du panier liés à l'utilisateur
-      navigate(`/cart/${userId}`);
+      navigate(`/cart/${cartId}`);
   
       setCart((prevCart) => {
         const existingProductIndex = prevCart.findIndex((cartItem) => cartItem.id === item.id);

@@ -1,60 +1,82 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAtom, useSetAtom } from 'jotai';  // Assurez-vous d'importer useSetAtom
-import { cartAtom, userAtom } from '../../stores/userAtom';
-
-const API_URL = `${import.meta.env.VITE_BASE_URL}`;
+import { useAtom } from 'jotai';
+import { API_URL } from '../../stores/apiUrl';
+import { userAtom, cartAtom} from '../../stores/userAtom';
 
 const Cart = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useAtom(userAtom);
+  const [user] = useAtom(userAtom);
+  const [cartId] = userAtom(cartAtom);
   const [cartItems, setCartItems] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
-  const setCart = useSetAtom(cartAtom);
+
+
 
   useEffect(() => {
-    // Chargez les détails du panier dès que le composant est monté
-    if (user.id) {
-      fetchCartDetails();
-    }
-  }, [user.id]);
-  
-  
+    const fetchData = async () => {
+      if (user.id && user.token && cartId) {
+        try {
+          await fetchCartDetails();
+        } catch (error) {
+          console.error('Error during fetchCartDetails:', error);
+        }
+      } else {
+        console.error('User is not authenticated. Redirecting to login page.');
+        navigate('/login');
+      }
+    };
+
+    fetchData();
+  }, [user.id, user.token, cartId]);
 
   const fetchCartDetails = async () => {
     try {
-      if (!user.id) {
-        console.error('User ID is not available');
-        return;
-      }
-  
-      const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${user.token}`,
-      };
-  
-      const response = await fetch(`${API_URL}/cart/${user.id}`, {
-        method: 'GET',
-        headers: headers,
+        console.log("cartId:", cartId);
+        const response = await fetch(`${API_URL}/cart/${cartId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
+        },
         credentials: 'include',
       });
   
       if (response.ok) {
         const data = await response.json();
-        setCartItems(data.cartItems);
-        setCartTotal(data.cartTotal);
-        console.log("User id est", user.id);
+        setCartItems(data.cartItems || []);
+        setCartTotal(data.cartTotal || 0);
+      } else if (response.status === 401) {
+        console.error('Unauthorized. Redirecting to login page.');
+        navigate('/login');
       } else {
+        // Gérez les autres cas d'erreur ici
         throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
       }
     } catch (error) {
       console.error('Error during fetchCartDetails:', error);
     }
   };
-
   
-  const handleDeleteItem = (itemId) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== itemId));
+
+  const handleDeleteItem = async (itemId) => {
+    try {
+      const response = await fetch(`${API_URL}/cart/${cartId}/item/${itemId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
+        },
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        fetchCartDetails();
+      } else {
+        throw new Error(`Failed to delete item: ${response.status} ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error('Error during handleDeleteItem:', error);
+    }
   };
 
   const handleContinueShopping = () => {
@@ -64,7 +86,6 @@ const Cart = () => {
   const handleCheckout = () => {
     navigate('/checkout');
   };
-
 
 
   return (

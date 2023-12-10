@@ -34,7 +34,6 @@ const LoginForm = () => {
 
         Cookies.set('token', response.headers.get('Authorization'));
         Cookies.set('id', data.user.id);
-        Cookies.set('cartId', response.data.id);
 
         const isAdmin = data.user.admin || false;
 
@@ -43,7 +42,7 @@ const LoginForm = () => {
           isLoggedIn: true,
           token: response.headers.get('Authorization'),
           id: data.user.id,
-          cartId: response.data.cartId,
+          cartId: data.cartId,
           isAdmin: isAdmin,
           test: 'test',
         }));
@@ -55,7 +54,7 @@ const LoginForm = () => {
         console.log('Authentification réussie');
         console.log(`L'id de l'utilisateur est ${data.user.id}`);
         console.log(response.headers.get('Authorization'));
-        console.log(`L'id de Cart est ${response.cartId}`);
+        console.log(`L'id de Cart est ${data.cartId}`);
       } else {
         // Afficher un message d'erreur
         message.error('Identifiants invalides');

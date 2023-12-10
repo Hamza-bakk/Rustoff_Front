@@ -15,7 +15,7 @@ import Home from './pages/Home';
 import Boutiques from "./pages/Boutiques/index";
 import ShowBoutique from './components/Boutique/show';
 import Portfolio from './pages/Portfolio';
-import Cart from './components/Cart/index';
+import Cart from './components/Cart/show';
 import LegalSection from './components/Footer/LegalSection';
 import PrivacyPolicySection from './components/Footer/PrivacyPolicySection';
 import RefundPolicySection from './components/Footer/RefundPolicySection';

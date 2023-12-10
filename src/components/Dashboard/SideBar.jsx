@@ -1,4 +1,4 @@
-import { Menu, ConfigProvider, Divider} from 'antd';
+import { Menu, ConfigProvider, Divider, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/rust.png';
 import { FaUsers } from "react-icons/fa";
@@ -9,15 +9,16 @@ import { FaFileInvoiceDollar } from "react-icons/fa6";
 import { LuLayoutDashboard } from "react-icons/lu";
 
 
-
-const getItem = (label, key, icon, children) => {
+const getItem = (label, key, icon, children, description) => {
   return {
     key,
     icon,
     children,
     label,
+    description,
   };
 }
+
 const items = [
   getItem(
     <Link to={'./'}>
@@ -25,6 +26,8 @@ const items = [
     </Link>,
     'admin',
     <LuLayoutDashboard />,
+    null,
+    'Stats général et 24h',
   ),
   getItem(
     <Link to={'./users'}>
@@ -32,6 +35,8 @@ const items = [
     </Link>,
     'users',
     <FaUsers />,
+    null,
+    'Liste des utilisateurs',
   ),
   getItem(
     <Link to={'./quotes'}>
@@ -39,6 +44,8 @@ const items = [
     </Link>,
     'quotes',
     <HiPencilSquare />,
+    null,
+    'Gérer des devis',
   ),
   getItem(
     <Link to={'./products'}>
@@ -46,14 +53,17 @@ const items = [
     </Link>,
     'products',
     <FaImage />,
+    null,
+    'Ajouts de produits',
   ),
   getItem(
     <Link to={'./orders'}>
       Commandes
     </Link>,
     'orders',
-    <FaFileInvoiceDollar />
-,
+    <FaFileInvoiceDollar />,
+    null,
+    'Liste Commandes',
   ),
   getItem(
     <Link to={'./store'}>
@@ -61,42 +71,51 @@ const items = [
     </Link>,
     'store',
     <FaStore />,
+    null,
+    'Liste Produits',
   ),
   getItem(
     <Divider />
   )
 ];
 
-
 const SideBar = () => {
-
   return (
-
-    <ConfigProvider  theme={{
-        components: {  
-          Menu: {
-            algorithm: true,
-            darkItemBg : "#000",
-            darkItemColor : '#fff',
-            colorPrimary: '#808080',
-          },
+    <ConfigProvider theme={{
+      components: {  
+        Menu: {
+          algorithm: true,
+          darkItemBg: "#000",
+          darkItemColor: '#fff',
+          colorPrimary: '#808080',
         },
-      }}>
-        <div style={{width : '10vw', background: '#000'}}>
-          <div className="imgContainer" style={{display : 'flex' , alignContent : 'center' , justifyContent : 'center' }} >
-            <Link to={'/'}>
-              <img src={Logo} style={{width : '8vw'}}></img>
-            </Link>
-          </div>
-          <div className="dividerContainer" style={{padding : '0 1vw' }}>
-            <Divider style={{background : '#fff'}} />
-          </div>
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} style={{ minHeight: "100vh", maxWidth: '10vw' }} />
+      },
+    }}>
+      <div style={{ display: 'flex', flexDirection: 'column', width: '10vw', background: '#000' }}>
+        <div className="imgContainer" style={{ display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
+          <Link to={'/'}>
+            <img src={Logo} style={{ width: '8vw' }} alt="Logo" />
+          </Link>
         </div>
-
+        <h1 className="font-bold text-lg lg:text-2xl ml-6 bg-gradient-to-br from-white via-white/50 to-transparent bg-clip-text text-transparent">
+          Dashboard<span className="text-indigo-400">.</span>
+        </h1>
+        <p className="text-slate-400 text-sm mb-2 ml-6">Admin,</p>
+        <div className="dividerContainer" style={{ padding: '0 1vw' }}>
+          <Divider style={{ background: '#fff' }} />
+        </div>
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" style={{ minHeight: "100vh", maxWidth: '10vw' }}>
+          {items.map((item) => (
+            <Menu.Item key={item.key} icon={item.icon} style={{ minHeight: '40px' }}>
+              <Tooltip title={item.description} placement="right">
+                {item.label}
+              </Tooltip>
+            </Menu.Item>
+          ))}
+        </Menu>
+      </div>
     </ConfigProvider>
-  
-
   );
 };
+
 export default SideBar;

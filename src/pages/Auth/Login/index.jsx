@@ -1,113 +1,128 @@
 import { useState } from 'react';
+import { Button, Checkbox, Form, Input, message } from 'antd';
+import Cookies from 'js-cookie';
 import { useAtom } from 'jotai';
 import { userAtom } from '../../../stores/userAtom';
-import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-import './login.css'
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import logo from '../../../assets/rust.png';
+import './login.css';
 
 const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 
-function Login() {
+const LoginForm = () => {
   const [user, setUser] = useAtom(userAtom);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
- 
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-  
+  const handleLogin = async (values) => {
     try {
       const response = await fetch(`${API_URL}/users/sign_in`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.token}`,
         },
         body: JSON.stringify({
           user: {
-            email: email,
-            password: password,
+            email: values.username,
+            password: values.password,
           },
         }),
       });
-  
-     if (response.ok) {
-  const data = await response.json();
 
-  Cookies.set('token', response.headers.get('Authorization'));
-  Cookies.set('id', data.user.id);
+      if (response.ok) {
+        const data = await response.json();
 
-  const cartId = data.user.cartId;
-  const isAdmin = data.user.admin || false;
+        Cookies.set('token', response.headers.get('Authorization'));
+        Cookies.set('id', data.user.id);
 
-  setUser((prevUser) => ({
-    ...prevUser,
-    isLoggedIn: true,
-    token: response.headers.get('Authorization'),
-    id: data.user.id,
-    cartId: cartId,
-    isAdmin: isAdmin,
-    test : 'test'
-  }));
+        const cartId = data.user.cartId;
+        const isAdmin = data.user.admin || false;
 
-  // Afficher une alerte de succès
-  toast.success('Connexion réussie !', { autoClose: 3000 });
+        setUser((prevUser) => ({
+          ...prevUser,
+          isLoggedIn: true,
+          token: response.headers.get('Authorization'),
+          id: data.user.id,
+          cartId: cartId,
+          isAdmin: isAdmin,
+          test: 'test',
+        }));
 
-  navigate('/');
-  console.log('Authentification réussie');
-  console.log(`L'id de l'utilisateur est ${data.user.id}`);
-  console.log(response.headers.get('Authorization'));
-} else {
-  setError('Identifiants invalides');
-}
+        // Afficher un message de succès
+        message.success('Connexion réussie !');
+
+        navigate('/');
+        console.log('Authentification réussie');
+        console.log(`L'id de l'utilisateur est ${data.user.id}`);
+        console.log(response.headers.get('Authorization'));
+      } else {
+        // Afficher un message d'erreur
+        message.error('Identifiants invalides');
+      }
     } catch (error) {
-      setError('Une erreur s\'est produite');
+      // Afficher un message d'erreur
+      message.error('Une erreur s\'est produite');
     }
   };
-  
-  return (
-    <div className="form-container">
-      <div className="p-8 rounded  w-full max-w-md">
-        <h2 className="text-2xl text-center font-bold mb-6">Se connecter :</h2>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        <form onSubmit={handleLogin} >
-          <div className="mb-4">
-            <input
-              type="text"
-              placeholder="Adresse email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              required
-              
-            />
-          </div>
-          <div className="mb-4">
-            <input
-              type="password"
-              placeholder="Mot de passe"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 focus:outline-none"
-          >
-            Se connecter
-          </button>
-        </form>
-      </div>
-      <ToastContainer />
-    </div>
-  );
-}
 
-export default Login;
+  return (
+    <div className="bg-gray-800 rounded-md max-w-md mx-auto mt-20 p-8">
+      <img src={logo} alt="Logo" className="w-35 h-16 mx-auto mb-4" />
+        <h2 className="font-extrabold text-2xl text-violet-400 text-center mb-4">Se Connecter</h2>
+    <Form
+      name="normal_login"
+      className="login-form"
+      initialValues={{
+        remember: true,
+      }}
+      onFinish={handleLogin}
+    >
+      <Form.Item
+        name="username"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your Username!',
+          },
+        ]}
+      >
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+      </Form.Item>
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your Password!',
+            },
+          ]}
+        >
+          <Input.Password
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+            placeholder="Password"
+          />
+        </Form.Item>
+      <Form.Item>
+        <Form.Item name="remember" valuePropName="checked" noStyle>
+          <Checkbox className="text-white">Remember me</Checkbox>
+        </Form.Item>
+
+        <a className="login-form-forgot text-white" href="">
+          Forgot password
+        </a>
+      </Form.Item>
+
+      <Form.Item>
+      <Button type="" htmlType="submit" className="login-form-button bg-violet-400 hover:bg-violet-300">
+        Log in
+      </Button>
+        <a href="/register" className="text-white">Or register now!</a>
+      </Form.Item>
+    </Form>
+  </div>
+);
+      }
+
+      export default LoginForm

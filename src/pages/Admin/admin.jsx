@@ -56,12 +56,12 @@ const DashboardComponent = () => {
   }
 
   return (
-    <article id="content" className="bg-gray-600 col-span-9 mt-5 rounded-lg p-6">
+    <article id="content" className="bg-black col-span-9 mt-5 rounded-lg p-6">
       <div id="24h">
         <h1 className="font-extrabold py-4 underline decoration-4 decoration-violet-500 underline-offset-8 text-white uppercase text-2xl">Statistiques</h1>
         <div id="stats" className="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Utilisateurs */}
-          <div className="bg-black p-6 rounded-lg">
+          <div className="bg-gray-600 p-6 rounded-lg">
             <div className="flex flex-row space-x-4 items-center">
               <div id="stats-1">
                 <FaUsers className="text-4xl text-white" />
@@ -76,7 +76,7 @@ const DashboardComponent = () => {
           </div>
 
           {/* Devis */}
-          <div className="bg-black p-6 rounded-lg">
+          <div className="bg-gray-600 p-6 rounded-lg">
             <div className="flex flex-row space-x-4 items-center">
               <div id="stats-1">
                 <FaFileInvoiceDollar className="text-4xl text-white" />
@@ -91,7 +91,7 @@ const DashboardComponent = () => {
           </div>
 
           {/* Devis Traité */}
-          <div className="bg-black p-6 rounded-lg">
+          <div className="bg-gray-600 p-6 rounded-lg">
             <div className="flex flex-row space-x-4 items-center">
               <div id="stats-1">
                 <FaFileCircleCheck className="text-4xl text-white" />
@@ -106,7 +106,7 @@ const DashboardComponent = () => {
           </div>
 
           {/* Devis Non-Traité */}
-          <div className="bg-black p-6 rounded-lg">
+          <div className="bg-gray-600 p-6 rounded-lg">
             <div className="flex flex-row space-x-4 items-center">
               <div id="stats-1">
                 <FaFileCircleXmark className="text-4xl text-white" />
@@ -121,7 +121,7 @@ const DashboardComponent = () => {
           </div>
 
           {/* Commandes */}
-          <div className="bg-black p-6 rounded-lg">
+          <div className="bg-gray-600 p-6 rounded-lg">
             <div className="flex flex-row space-x-4 items-center">
               <div id="stats-1">
                 <TbFileEuro className="text-4xl text-white" />
@@ -136,7 +136,7 @@ const DashboardComponent = () => {
           </div>
 
           {/* Articles en Boutique */}
-          <div className="bg-black p-6 rounded-lg">
+          <div className="bg-gray-600 p-6 rounded-lg">
             <div className="flex flex-row space-x-4 items-center">
               <div id="stats-1">
                 <FaImages className="text-4xl text-white" />

@@ -1,7 +1,19 @@
-.form-container {
-  display: flex;
+/* login.css */
+
+.login-form {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+.ant-col-rtl .login-form-forgot {
+  float: left;
+}
+
+.login-form-button {
   width: 100%;
-  align-items: center;
-  justify-content: center;
-  height: 75vh;
+  margin-top: 10px; /* Add some space above the button */
 }

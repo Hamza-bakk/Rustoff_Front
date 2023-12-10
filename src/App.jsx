@@ -11,8 +11,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Register from './pages/Auth/Register';
 import Login from './pages/Auth/Login';
 import NewPassword from './pages/Auth/NewPassword';
-import AuthSuccess from './pages/Auth/AuthSuccess';
-import LogoutSuccess from './pages/Auth/LogoutSuccess';
 import Home from './pages/Home';
 import Boutiques from "./pages/Boutiques/index";
 import ShowBoutique from './components/Boutique/show';
@@ -96,14 +94,6 @@ function App() {
         <Route
           path="/newpassword"
           element={<MainLayout><NewPassword /></MainLayout>}
-        />
-        <Route
-          path="/authsuccess"
-          element={<MainLayout><AuthSuccess /></MainLayout>}
-        />
-        <Route
-          path="/logoutsuccess"
-          element={<MainLayout><LogoutSuccess /></MainLayout>}
         />
         <Route
           path="/mentions-legales"

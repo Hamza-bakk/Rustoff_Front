@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useAtom } from 'jotai';
-import { userAtom, cartAtom } from '../../stores/userAtom';
+import { userAtom} from '../../stores/userAtom';
 import { useParams, useNavigate } from 'react-router-dom'; 
 
 const API_URL = `${import.meta.env.VITE_BASE_URL}`;
@@ -10,8 +10,9 @@ const Cart = () => {
   const { cartId } = useParams(); // Utilisez useParams pour obtenir cartId du chemin d'accès
   const navigate = useNavigate();
   const [user] = useAtom(userAtom);
+  const [cartTotal, setCartTotal] = useState(0);
   const [cartItems, setCartItems] = useState([]);
-  // const [cartTotal, setCartTotal] = useState(0);
+  
 
   useEffect(() => {
 
@@ -47,7 +48,9 @@ const Cart = () => {
   
       if (response.ok) {
         const data = await response.json();
-        setCartItems(data.cartItems || []);
+        const cartItemsFromCookie = JSON.parse(Cookies.get('cartItems') || '[]');
+        setCartItems(cartItemsFromCookie);
+
         setCartTotal(data.cartTotal || 0);
       } else if (response.status === 401) {
         console.error('Unauthorized. Redirecting to login page.');
@@ -62,6 +65,7 @@ const Cart = () => {
   };
   
 
+console.log('cart items dans show cart', cartItems);
   const handleDeleteItem = async (itemId) => {
     try {
       const response = await fetch(`${API_URL}/cart/${cartId}/item/${itemId}`, {
@@ -97,11 +101,11 @@ const Cart = () => {
       <div className="flex flex-col-reverse sm:flex-row shadow-md my-10">
         <article className="w-full sm:w-3/4 bg-gray-800 px-4 py-4 sm:px-10 sm:py-10">
           {cartItems.length > 0 ? (
-            cartItems.map((cartItem) => (
-              <div key={cartItem.id} className="flex items-center -mx-2 px-2 sm:px-6 py-3 sm:py-5">
-                {/* ... Contenu de chaque élément du panier */}
+            cartItems.map((item) => (
+              <div key={item.id} className="flex items-center -mx-2 px-2 sm:px-6 py-3 sm:py-5">
+               <p> {item.title} </p>
                 <button
-                  onClick={() => handleDeleteItem(cartItem.id)}
+                  onClick={() => handleDeleteItem(item.id)}
                   className="btn btn-danger text-white p-1"
                 >
                   <i className="fa-solid fa-trash text-red-800"></i>

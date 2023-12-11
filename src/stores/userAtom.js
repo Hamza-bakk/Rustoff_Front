@@ -1,13 +1,14 @@
 import { atom } from 'jotai';
 
-
 export const userAtom = atom({
-  email: "",
-  id: "",
-  token: "",
+  id: null,
   isLoggedIn: false,
+  token: null,
+  cartId: null,
   isAdmin: false,
-  cartId: undefined,
 });
 
-export const cartAtom = atom([]);
+// Atome pour stocker les informations du panier
+export const cartAtom = atom({
+  cart: [], // Initialisé avec un tableau vide
+});

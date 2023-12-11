@@ -10,7 +10,6 @@ const Boutique = () => {
       try {
         const response = await fetch(API_URL + "/items");
         const data = await response.json();
-        console.log('Data from API:', data);
         setItems(data);
       } catch (error) {
         console.error('Error fetching items:', error);

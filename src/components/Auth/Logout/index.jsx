@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAtom } from 'jotai';
-import { userAtom } from '../../../stores/userAtom';
+import { userAtom, cartAtom } from '../../../stores/userAtom';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
@@ -9,12 +9,14 @@ import { message } from 'antd';
 function LogoutButton() {
   const [, setUser] = useAtom(userAtom);
   const navigate = useNavigate();
+  const [cartId] = useAtom(cartAtom);
 
   const handleLogout = () => {
     setUser({
       id: '',
       isLoggedIn: false,
       token: '',
+      cartId: '',
     });
     // Supprime les cookies
     Cookies.remove('token');
@@ -31,11 +33,13 @@ function LogoutButton() {
     const token = Cookies.get('token');
     const id = Cookies.get('id');
 
+
     if (token && id) {
       setUser({
         id,
         isLoggedIn: true,
         token,
+        cartId,
       });
     }
   }, [setUser]);

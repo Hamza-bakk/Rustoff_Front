@@ -24,7 +24,7 @@ const LoginForm = () => {
         },
         body: JSON.stringify({
           user: {
-            email: values.username,
+            email: values.email,
             password: values.password,
           },
         }),
@@ -67,9 +67,11 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="bg-gray-800 rounded-md max-w-md mx-auto mt-20 p-8">
+<div className="flex items-center justify-center h-screen">
+    <div className="bg-gray-800 rounded-md max-w-md mx-auto p-8">
       <img src={logo} alt="Logo" className="w-35 h-16 mx-auto mb-4" />
-        <h2 className="font-extrabold text-2xl text-violet-400 text-center mb-4">Se Connecter</h2>
+      <h2 className="font-extrabold text-2xl text-violet-400 text-center mb-4">Se Connecter</h2>
+
     <Form
       name="normal_login"
       className="login-form"
@@ -79,29 +81,29 @@ const LoginForm = () => {
       onFinish={handleLogin}
     >
       <Form.Item
-        name="username"
+        name="email"
         rules={[
           {
             required: true,
-            message: 'Please input your Username!',
+            message: 'Merci de mettre votre email!',
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
       </Form.Item>
         <Form.Item
           name="password"
           rules={[
             {
               required: true,
-              message: 'Please input your Password!',
+              message: 'Merci de mettre votre mot de!',
             },
           ]}
         >
           <Input.Password
             prefix={<LockOutlined className="site-form-item-icon" />}
             iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-            placeholder="Password"
+            placeholder="Mot de Passe"
           />
         </Form.Item>
       <Form.Item>
@@ -110,18 +112,19 @@ const LoginForm = () => {
         </Form.Item>
 
         <a className="login-form-forgot text-white" href="">
-          Forgot password
+          Mot de passe perdu ?
         </a>
       </Form.Item>
 
       <Form.Item>
-      <Button type="" htmlType="submit" className="login-form-button bg-violet-400 hover:bg-violet-300">
-        Log in
+      <Button type="" htmlType="submit" className="login-form-button font-bold bg-violet-400 hover:bg-violet-300">
+        Connexion
       </Button>
-        <a href="/register" className="text-white">Or register now!</a>
+        <a href="/register" className="text-white">Ou Inscrit toi !</a>
       </Form.Item>
     </Form>
   </div>
+</div>
 );
       }
 

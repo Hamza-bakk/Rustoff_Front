@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAtom } from 'jotai';
-import { userAtom } from './stores/userAtom';
+import { userAtom, cartAtom } from './stores/userAtom';
 import Cookies from 'js-cookie';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -50,16 +50,20 @@ function MainLayout({ children }) {
 
 function App() {
   const [ ,setUser] = useAtom(userAtom);
+  // const [cartId] = useAtom(cartAtom);
+ 
 
 
 
   useEffect(() => {
     const token = Cookies.get('token');
+    const cartId = Cookies.get('cartId');
 
     if (token) {
       setUser({
         isLoggedIn: true,
         token: token,
+        cartId: cartId,
       });
     }
   }, []);
@@ -76,7 +80,7 @@ function App() {
           element={<MainLayout><Boutiques /></MainLayout>}
         />
         <Route
-          path="/cart/:id"
+          path="/cart/:cartId"
           element={<MainLayout><Cart /></MainLayout>}
         />
         <Route

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAtom, useSetAtom } from 'jotai';
-import Cookies from 'js-cookie';
 import { userAtom, cartAtom } from '../../stores/userAtom';
 
 const API_URL = `${import.meta.env.VITE_BASE_URL}`;
@@ -9,7 +9,7 @@ const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 const ShowBoutique = () => {
   const { itemId } = useParams();
   const [user] = useAtom(userAtom);
-  const [cartId] = useAtom(cartAtom);
+  const cartId = Cookies.get('cartId');
   const setCart = useSetAtom(cartAtom);
   const navigate = useNavigate();
   const [item, setItem] = useState({});
@@ -35,34 +35,35 @@ const ShowBoutique = () => {
   }, [itemId]);
 
   const addToCart = () => {
-    console.log('Utilisateur actuel:', user);
-    const storedCartId = Cookies.get('cartId');
   
-    if (user.id && user.token && storedCartId) {
-      console.log('Conditions remplies pour ajouter au panier. Cart ID:', storedCartId);
+  
+    if (user.id && user.token && cartId) {
+      console.log('Conditions remplies pour ajouter au panier. Cart ID:', cartId);
   
       setCart((prevCart) => {
         const cartArray = prevCart.cart || [];
         const existingProductIndex = cartArray.findIndex((cartItem) => cartItem.id === item.id);
   
         if (existingProductIndex >= 0) {
+          // L'article existe déjà dans le panier, mettez à jour la quantité
           const updatedCart = [...cartArray];
           updatedCart[existingProductIndex].quantity += quantity;
-          console.log('Panier mis à jour:', updatedCart);
+
           return { ...prevCart, cart: updatedCart };
         } else {
+          // L'article n'existe pas dans le panier, ajoutez-le
           const newCartItem = { ...item, quantity: quantity };
-          console.log('Nouvel article ajouté au panier:', newCartItem);
+
           return { ...prevCart, cart: [...cartArray, newCartItem] };
         }
       });
   
-      navigate(`/cart/${storedCartId}`);
+      navigate(`/cart/${cartId}`);
     } else {
       console.error('Utilisateur non connecté ou identifiant d\'utilisateur non défini');
     }
   };
-  
+
 
   return (
     <section className="p-2">

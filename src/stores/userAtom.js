@@ -1,7 +1,5 @@
 import { atom } from 'jotai';
 
-// Atome pour stocker les informations de l'utilisateur
-// userAtom initial
 export const userAtom = atom({
   id: null,
   isLoggedIn: false,

@@ -5,7 +5,7 @@ import { userAtom } from '../../../stores/userAtom';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import logo from '../../../assets/rust.png'; // Assure-toi que le chemin vers le logo est correct
+import logo from '../../../assets/rust.png';
 
 const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 
@@ -34,27 +34,34 @@ const Register = () => {
 
       if (response.ok) {
         const data = await response.json();
+      
+        const authToken = response.headers.get('Authorization');
+        const userId = data.user.id;
+        const cartId = data.cartId;
 
-        Cookies.set('token', response.headers.get('Authorization'));
-        Cookies.set('id', data.user.id);
+        Cookies.set('token', authToken);
+        Cookies.set('id', userId);
+        Cookies.set('cartId', cartId);
+          
+          setUser({
+            isLoggedIn: true,
+            token: authToken,
+            id: userId,
+            cartId: cartId,
+          });
 
-        setUser({
-          isLoggedIn: true,
-          token: response.headers.get('Authorization'),
-          id: data.user.id,
-        });
+          message.success('Compte créé avec succès. Connecté !');
 
-        message.success('Compte créé avec succès. Connecté !');
-
-        navigate('/');
+          navigate('/');
+          
       } else {
         setError('Erreur lors de la création du compte');
       }
     } catch (error) {
-      setError('Erreur lors de la création du compte');
+      setError('Une erreur s\'est produite lors de la création du compte');
     }
   };
-
+  
   return (
     <div className="bg-gray-800 rounded-md max-w-md mx-auto mt-20 p-8">
       <img src={logo} alt="Logo" className="w-35 h-16 mx-auto mb-4" />

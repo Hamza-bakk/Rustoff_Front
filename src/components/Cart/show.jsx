@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import { useAtom } from 'jotai';
-import { userAtom } from '../../stores/userAtom';
+import { userAtom, cartAtom } from '../../stores/userAtom';
 import { useParams, useNavigate } from 'react-router-dom'; 
 
 const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 const Cart = () => {
-  const { cartId } = useParams(); // Utilisez useParams ici pour obtenir cartId du chemin d'accès
+  const { cartId } = useParams(); // Utilisez useParams pour obtenir cartId du chemin d'accès
   const navigate = useNavigate();
   const [user] = useAtom(userAtom);
   const [cartItems, setCartItems] = useState([]);
-  const [cartTotal, setCartTotal] = useState(0);
+  // const [cartTotal, setCartTotal] = useState(0);
 
   useEffect(() => {
-    console.log('user:', user); // Vérifiez les valeurs de l'utilisateur ici
-    console.log('cartId:', cartId); // Vérifiez les valeurs du cartId ici
+
   
     const fetchData = async () => {
       if (user.id && user.token && cartId) {
@@ -30,13 +30,14 @@ const Cart = () => {
     };
   
     fetchData();
-  }, [user.id, user.token, cartId]);
+  }, [user.id, cartId]);
 
   
   const fetchCartDetails = async () => {
     try {
-        console.log("cartId:", cartId);
+
         const response = await fetch(`${API_URL}/cart/${cartId}`, {
+          method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${user.token}`,

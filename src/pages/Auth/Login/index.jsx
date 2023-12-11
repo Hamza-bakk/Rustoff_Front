@@ -34,6 +34,7 @@ const LoginForm = () => {
 
         Cookies.set('token', response.headers.get('Authorization'));
         Cookies.set('id', data.user.id);
+        Cookies.set('cartId', data.cartId);
 
         const isAdmin = data.user.admin || false;
 
@@ -55,6 +56,7 @@ const LoginForm = () => {
         console.log(`L'id de l'utilisateur est ${data.user.id}`);
         console.log(response.headers.get('Authorization'));
         console.log(`L'id de Cart est ${data.cartId}`);
+        console.log('data:', data); // Ajoutez ce log pour vérifier la structure de l'objet data
       } else {
         // Afficher un message d'erreur
         message.error('Identifiants invalides');

@@ -12,3 +12,4 @@ export const userAtom = atom({
 export const cartAtom = atom({
   cart: [], // Initialisé avec un tableau vide
 });
+

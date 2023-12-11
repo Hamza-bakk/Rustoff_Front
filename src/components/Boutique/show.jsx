@@ -11,6 +11,8 @@ const ShowBoutique = () => {
   const [user] = useAtom(userAtom);
   const cartId = Cookies.get('cartId');
   const setCart = useSetAtom(cartAtom);
+  const [cart] = useAtom(cartAtom);
+  const cartItems = cart.cart || [];
   const navigate = useNavigate();
   const [item, setItem] = useState({});
   const [quantity, setQuantity] = useState(1); // Initialisez la quantité à 1
@@ -22,7 +24,7 @@ const ShowBoutique = () => {
         if (response.ok) {
           const data = await response.json();
           setItem(data);
-          console.log(data);
+
         } else {
           throw new Error('Erreur lors de la requête');
         }
@@ -38,7 +40,6 @@ const ShowBoutique = () => {
   
   
     if (user.id && user.token && cartId) {
-      console.log('Conditions remplies pour ajouter au panier. Cart ID:', cartId);
   
       setCart((prevCart) => {
         const cartArray = prevCart.cart || [];
@@ -48,12 +49,16 @@ const ShowBoutique = () => {
           // L'article existe déjà dans le panier, mettez à jour la quantité
           const updatedCart = [...cartArray];
           updatedCart[existingProductIndex].quantity += quantity;
+          Cookies.set('cartItems', JSON.stringify(updatedCart), { expires: 1 });
+    
 
+        
           return { ...prevCart, cart: updatedCart };
         } else {
           // L'article n'existe pas dans le panier, ajoutez-le
           const newCartItem = { ...item, quantity: quantity };
 
+        
           return { ...prevCart, cart: [...cartArray, newCartItem] };
         }
       });

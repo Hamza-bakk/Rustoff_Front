@@ -48,7 +48,8 @@ const Cart = () => {
   
       if (response.ok) {
         const data = await response.json();
-        const cartItemsFromCookie = JSON.parse(Cookies.get('cartItems') || '[]');
+        const userId = user.id;
+        const cartItemsFromCookie = JSON.parse(Cookies.get(`cartItems_${userId}`) || '[]');
         setCartItems(cartItemsFromCookie);
 
         setCartTotal(data.cartTotal || 0);

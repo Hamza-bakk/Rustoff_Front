@@ -93,7 +93,7 @@ console.log('cart items dans show cart', cartItems);
   };
 
   const handleCheckout = () => {
-    navigate('/checkout');
+    navigate(`/checkout`);
   };
 
 
@@ -127,14 +127,59 @@ console.log('cart items dans show cart', cartItems);
         </article>
 
         <article id="summary" className="w-full sm:w-1/4 bg-gray-600 px-4 py-4 sm:px-8 sm:py-10">
-          {/* ... Récapitulatif et bouton de paiement */}
+          <h1 className="font-semibold text-white text-xl sm:text-2xl border-b pb-4">Récapitulatif</h1>
+          <div className="flex justify-between mt-4 sm:mt-10 mb-2 sm:mb-5">
+            <span className="font-semibold text-white text-xs sm:text-sm uppercase">
+              Produits {cartItems.length}
+            </span>
+            <span className="font-semibold text-white text-xs sm:text-sm">
+              {/* Montant total des produits */}
+              {cartItems.reduce((total, item) => total + item.quantity * item.price, 0)} 
+            </span>
+          </div>
+          <div className="py-6 sm:py-10">
+            <label
+              htmlFor="promo"
+              className="font-semibold text-white inline-block mb-3 text-xs sm:text-sm uppercase"
+            >
+              Code Promo
+            </label>
+            <input
+              type="text"
+              id="promo"
+              placeholder="! FONCTION A VENIR !"
+              className="p-2 text-xs sm:text-sm w-full pointer-events-none"
+              disabled
+            />
+          </div>
           <button
-            onClick={handleCheckout}
-            className="bg-purple-400 font-semibold hover:bg-purple-300 py-2 text-xs sm:text-sm text-black uppercase w-full btn btn-primary"
-            disabled={cartItems.length === 0}
+            className="bg-red-500 hover:bg-red-600 px-4 sm:px-5 py-2 text-xs sm:text-sm text-white uppercase pointer-events-none"
+            disabled
           >
-            Payer
+            Appliquer
           </button>
+          <div className="border-t mt-4 sm:mt-8">
+            <div className="flex font-semibold text-white justify-between py-3 text-xs sm:text-sm uppercase">
+              <span>Total Commande</span>
+              {/* Montant total des produits (même logique que ci-dessus) */}
+              <span>{cartItems.reduce((total, item) => total + item.quantity * item.price, 0)} € </span>
+            </div>
+            {cartItems.length > 0 ? (
+              <button
+                onClick={handleCheckout}
+                className="bg-purple-400 font-semibold hover:bg-purple-300 py-2 text-xs sm:text-sm text-black uppercase w-full btn btn-primary"
+              >
+                Payer
+              </button>
+            ) : (
+              <button
+                className="bg-purple-400 font-semibold py-2 text-xs sm:text-sm text-black uppercase w-full btn btn-primary disabled"
+                disabled
+              >
+                Payer
+              </button>
+            )}
+          </div>
         </article>
       </div>
     </section>

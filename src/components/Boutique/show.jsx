@@ -37,37 +37,35 @@ const ShowBoutique = () => {
   }, [itemId]);
 
   const addToCart = () => {
-  
-  
     if (user.id && user.token && cartId) {
+      // Obtenir l'identifiant de l'utilisateur
+      const userId = user.id;
   
-      setCart((prevCart) => {
-        const cartArray = prevCart.cart || [];
-        const existingProductIndex = cartArray.findIndex((cartItem) => cartItem.id === item.id);
+      // Récupérer le panier actuel s'il existe
+      const existingCartItems = JSON.parse(Cookies.get(`cartItems_${userId}`) || '[]');
   
-        if (existingProductIndex >= 0) {
-          // L'article existe déjà dans le panier, mettez à jour la quantité
-          const updatedCart = [...cartArray];
-          updatedCart[existingProductIndex].quantity += quantity;
-          Cookies.set('cartItems', JSON.stringify(updatedCart), { expires: 1 });
-    
-
-        
-          return { ...prevCart, cart: updatedCart };
-        } else {
-          // L'article n'existe pas dans le panier, ajoutez-le
-          const newCartItem = { ...item, quantity: quantity };
-
-        
-          return { ...prevCart, cart: [...cartArray, newCartItem] };
-        }
-      });
+      // Vérifier si l'article est déjà dans le panier
+      const existingProductIndex = existingCartItems.findIndex((cartItem) => cartItem.id === item.id);
   
+      if (existingProductIndex >= 0) {
+        // L'article existe déjà dans le panier, mettez à jour la quantité
+        existingCartItems[existingProductIndex].quantity += quantity;
+      } else {
+        // L'article n'existe pas dans le panier, ajoutez-le
+        const newCartItem = { ...item, quantity: quantity };
+        existingCartItems.push(newCartItem);
+      }
+  
+      // Enregistrer le panier mis à jour dans le cookie
+      Cookies.set(`cartItems_${userId}`, JSON.stringify(existingCartItems), { expires: 1 });
+  
+      // Rediriger vers la page du panier
       navigate(`/cart/${cartId}`);
     } else {
-      console.error('Utilisateur non connecté ou identifiant d\'utilisateur non défini');
+      console.error("Utilisateur non connecté ou identifiant d'utilisateur non défini");
     }
   };
+  
 
 
   return (

@@ -44,15 +44,18 @@ const ShowBoutique = () => {
       // Récupérer le panier actuel s'il existe
       const existingCartItems = JSON.parse(Cookies.get(`cartItems_${userId}`) || '[]');
   
+      // Convertir la quantité en nombre
+      const parsedQuantity = parseInt(quantity, 10);
+  
       // Vérifier si l'article est déjà dans le panier
       const existingProductIndex = existingCartItems.findIndex((cartItem) => cartItem.id === item.id);
   
       if (existingProductIndex >= 0) {
         // L'article existe déjà dans le panier, mettez à jour la quantité
-        existingCartItems[existingProductIndex].quantity += quantity;
+        existingCartItems[existingProductIndex].quantity += parsedQuantity;
       } else {
         // L'article n'existe pas dans le panier, ajoutez-le
-        const newCartItem = { ...item, quantity: quantity };
+        const newCartItem = { ...item, quantity: parsedQuantity };
         existingCartItems.push(newCartItem);
       }
   
@@ -65,6 +68,7 @@ const ShowBoutique = () => {
       console.error("Utilisateur non connecté ou identifiant d'utilisateur non défini");
     }
   };
+  
   
 
 

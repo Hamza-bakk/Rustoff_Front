@@ -3,6 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { userAtom, cartAtom } from './stores/userAtom';
 import Cookies from 'js-cookie';
+import {loadStripe} from '@stripe/stripe-js';
+import {
+  EmbeddedCheckoutProvider,
+  EmbeddedCheckout
+} from '@stripe/react-stripe-js';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,6 +21,7 @@ import Boutiques from "./pages/Boutiques/index";
 import ShowBoutique from './components/Boutique/show';
 import Portfolio from './pages/Portfolio';
 import Cart from './components/Cart/show';
+import Order from './components/Order';
 import LegalSection from './components/Footer/LegalSection';
 import PrivacyPolicySection from './components/Footer/PrivacyPolicySection';
 import RefundPolicySection from './components/Footer/RefundPolicySection';
@@ -48,12 +54,40 @@ function MainLayout({ children }) {
   );
 }
 
+const stripePromise = loadStripe(import.meta.env.REACT_APP_PUBLISHABLE_KEY);
+
+
+const CheckoutForm = () => {
+  const [clientSecret, setClientSecret] = useState('');
+
+  useEffect(() => {
+    // Create a Checkout Session as soon as the page loads
+    fetch("/create-checkout-session", {
+      method: "POST",
+    })
+      .then((res) => res.json())
+      .then((data) => setClientSecret(data.clientSecret));
+  }, []);
+
+  return (
+    <div id="checkout">
+      {clientSecret && (
+        <EmbeddedCheckoutProvider
+          stripe={stripePromise}
+          options={{clientSecret}}
+        >
+          <EmbeddedCheckout />
+        </EmbeddedCheckoutProvider>
+      )}
+    </div>
+  )
+}
+
+
 function App() {
   const [ ,setUser] = useAtom(userAtom);
   // const [cartId] = useAtom(cartAtom);
  
-
-
 
   useEffect(() => {
     const token = Cookies.get('token');
@@ -83,6 +117,12 @@ function App() {
           path="/cart/:cartId"
           element={<MainLayout><Cart /></MainLayout>}
         />
+
+        <Route
+          path="/order"
+          element={<MainLayout><Order /></MainLayout>}
+        />
+
         <Route
           path="/item/:itemId"
           element={<MainLayout><ShowBoutique /></MainLayout>}

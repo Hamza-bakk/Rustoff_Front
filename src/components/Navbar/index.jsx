@@ -1,5 +1,6 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useAtom } from 'jotai';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useAtom, useSetAtom  } from 'jotai';
+import Cookies from 'js-cookie';
 import { userAtom } from '../../stores/userAtom';
 import LogoutButton from '../Auth/Logout';
 import logo from '../../assets/rust.png';
@@ -7,12 +8,12 @@ import { FaBars, FaShoppingCart } from "react-icons/fa";
 
 const NavBar = () => {
   const [userInfo] = useAtom(userAtom);
-  console.log('ueserInfoNav' , userInfo)
   const navigate = useNavigate();
 
 
   const handleCartClick = () => {
-    navigate('/cart/${userId}');
+    const cartId = Cookies.get('cartId');
+    navigate(`/cart/${cartId}`);
   };
 
   const handleProfileClick = () => {

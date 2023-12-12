@@ -56,6 +56,9 @@ dependencies:
   react-icons:
     specifier: ^4.12.0
     version: 4.12.0(react@18.2.0)
+  react-modal-image:
+    specifier: ^2.6.0
+    version: 2.6.0
   react-responsive-masonry:
     specifier: ^2.1.7
     version: 2.1.7
@@ -3613,6 +3616,10 @@ packages:
 
   /react-lifecycles-compat@3.0.4:
     resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}
+    dev: false
+
+  /react-modal-image@2.6.0:
+    resolution: {integrity: sha512-NNc1xPKzFAn0VsNMdJ8NXt6c54aL/z0fcoYmw9qn4SBUONdGl+8LOQ0sTfo0wtdzcjLiby/ncloHcAL+UI+wIA==}
     dev: false
 
   /react-refresh@0.14.0:

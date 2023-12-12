@@ -1,0 +1,25 @@
+/* Ajoutez ceci à votre fichier CSS ou à l'intérieur du composant */
+@keyframes zoomIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.popup-image {
+  animation: zoomIn 0.3s ease-in-out;
+}
+
+
+.titleContainer,
+.linkContainer {
+  margin-bottom: 1rem;
+}
+
+.boutique,
+.linkCategory {
+  padding: 0.5rem 2rem;
+}
+

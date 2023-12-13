@@ -63,7 +63,7 @@ const Register = () => {
   };
   
   return (
-    <div className="bg-gray-800 rounded-md max-w-md mx-auto mt-20 p-8">
+    <div className="bg-gray-800 rounded-md max-w-md mx-auto mt-32 p-8">
       <img src={logo} alt="Logo" className="w-35 h-16 mx-auto mb-4" />
       <Form
         name="register-form"

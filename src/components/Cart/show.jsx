@@ -67,26 +67,33 @@ const Cart = () => {
   
 
 console.log('cart items dans show cart', cartItems);
-  const handleDeleteItem = async (itemId) => {
-    try {
-      const response = await fetch(`${API_URL}/cart/${cartId}/item/${itemId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.token}`,
-        },
-        credentials: 'include',
-      });
+const handleDeleteItem = async (itemId) => {
+  try {
+    const response = await fetch(`${API_URL}/cart/${cartId}/item/${itemId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${user.token}`,
+      },
+      credentials: 'include',
+    });
 
-      if (response.ok) {
-        fetchCartDetails();
-      } else {
-        throw new Error(`Failed to delete item: ${response.status} ${response.statusText}`);
-      }
-    } catch (error) {
-      console.error('Error during handleDeleteItem:', error);
+    if (response.ok) {
+      // Filtrer les articles du panier pour exclure celui qui vient d'être supprimé
+      const updatedCartItems = cartItems.filter(item => item.id !== itemId);
+      
+      // Mettre à jour l'état du panier avec les articles mis à jour
+      setCartItems(updatedCartItems);
+
+      // Mettre à jour le total du panier
+      fetchCartDetails();
+    } else {
+      throw new Error(`Failed to delete item: ${response.status} ${response.statusText}`);
     }
-  };
+  } catch (error) {
+    console.error('Error during handleDeleteItem:', error);
+  }
+};
 
   const handleContinueShopping = () => {
     navigate('/boutique');
@@ -98,91 +105,63 @@ console.log('cart items dans show cart', cartItems);
 
 
   return (
-    <section className="container mx-auto mt-10">
-      <div className="flex flex-col-reverse sm:flex-row shadow-md my-10">
-        <article className="w-full sm:w-3/4 bg-gray-800 px-4 py-4 sm:px-10 sm:py-10">
-          {cartItems.length > 0 ? (
-            cartItems.map((item) => (
-              <div key={item.id} className="flex items-center -mx-2 px-2 sm:px-6 py-3 sm:py-5">
-               <p> {item.title} </p>
-                <button
-                  onClick={() => handleDeleteItem(item.id)}
-                  className="btn btn-danger text-white p-1"
-                >
-                  <i className="fa-solid fa-trash text-red-800"></i>
-                </button>
+    <div className="flex flex-col rounded max-w-3xl mt-4 p-6 space-y-4 sm:p-10 bg-gray-800 text-gray-100 mx-auto my-auto">
+      <h2 className="text-xl font-semibold und">Votre Panier</h2>
+      <ul className="flex flex-col divide-y dark:divide-gray-700">
+        {cartItems.length > 0 ? (
+          cartItems.map((item) => (
+            <li key={item.id} className="flex flex-col py-6 sm:flex-row sm:justify-between">
+              <div className="flex w-full space-x-2 sm:space-x-4">
+                <img className="flex-shrink-0 object-cover w-20 h-20 dark:border-transparent rounded outline-none sm:w-32 sm:h-32 dark:bg-gray-500" src={item.image_url} alt={item.alt} />
+                <div className="flex flex-col justify-between w-full pb-4">
+                  <div className="flex justify-between w-full pb-2 space-x-2">
+                    <div className="space-y-1">
+                      <h3 className="text-lg font-semibold leading sm:pr-8">{item.title}</h3>
+                      <p className="text-sm dark:text-gray-400">{item.description}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-lg text-green-600 font-semibold">{item.price}€</p>
+                    </div>
+                  </div>
+                  <div className="flex text-sm divide-x">
+                  <button type="button" className="flex items-center px-2 py-1 pl-0 text-red-500 hover:text-red-700 space-x-1" onClick={() => handleDeleteItem(item.id)}>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-4 h-4 fill-current">
+                        <path d="M96,472a23.82,23.82,0,0,0,23.579,24H392.421A23.82,23.82,0,0,0,416,472V152H96Zm32-288H384V464H128Z"></path>
+                        <rect width="32" height="200" x="168" y="216"></rect>
+                        <rect width="32" height="200" x="240" y="216"></rect>
+                        <rect width="32" height="200" x="312" y="216"></rect>
+                        <path d="M328,88V40c0-13.458-9.488-24-21.6-24H205.6C193.488,16,184,26.542,184,40V88H64v32H448V88ZM216,48h80V88H216Z"></path>
+                      </svg>
+                      <span>Remove</span>
+                    </button>
+                  </div>
+                </div>
               </div>
-            ))
-          ) : (
+            </li>
+          ))
+        ) : (
+          <li className="flex flex-col py-6 sm:flex-row sm:justify-between">
             <div className="empty-cart-message text-center text-red-600 text-2xl mt-4 sm:mt-10">
               Votre panier est vide.
             </div>
-          )}
-          <button
-            onClick={handleContinueShopping}
-            className="flex font-semibold text-purple-400 text-xs sm:text-sm mt-4 sm:mt-10"
-          >
-            Continuer le shopping
-          </button>
-        </article>
-
-        <article id="summary" className="w-full sm:w-1/4 bg-gray-600 px-4 py-4 sm:px-8 sm:py-10">
-          <h1 className="font-semibold text-white text-xl sm:text-2xl border-b pb-4">Récapitulatif</h1>
-          <div className="flex justify-between mt-4 sm:mt-10 mb-2 sm:mb-5">
-            <span className="font-semibold text-white text-xs sm:text-sm uppercase">
-              Produits {cartItems.length}
-            </span>
-            <span className="font-semibold text-white text-xs sm:text-sm">
-              {/* Montant total des produits */}
-              {cartItems.reduce((total, item) => total + item.quantity * item.price, 0)} 
-            </span>
-          </div>
-          <div className="py-6 sm:py-10">
-            <label
-              htmlFor="promo"
-              className="font-semibold text-white inline-block mb-3 text-xs sm:text-sm uppercase"
-            >
-              Code Promo
-            </label>
-            <input
-              type="text"
-              id="promo"
-              placeholder="! FONCTION A VENIR !"
-              className="p-2 text-xs sm:text-sm w-full pointer-events-none"
-              disabled
-            />
-          </div>
-          <button
-            className="bg-red-500 hover:bg-red-600 px-4 sm:px-5 py-2 text-xs sm:text-sm text-white uppercase pointer-events-none"
-            disabled
-          >
-            Appliquer
-          </button>
-          <div className="border-t mt-4 sm:mt-8">
-            <div className="flex font-semibold text-white justify-between py-3 text-xs sm:text-sm uppercase">
-              <span>Total Commande</span>
-              {/* Montant total des produits (même logique que ci-dessus) */}
-              <span>{cartItems.reduce((total, item) => total + item.quantity * item.price, 0)} € </span>
-            </div>
-            {cartItems.length > 0 ? (
-              <button
-                onClick={handleCheckout}
-                className="bg-purple-400 font-semibold hover:bg-purple-300 py-2 text-xs sm:text-sm text-black uppercase w-full btn btn-primary"
-              >
-                Payer
-              </button>
-            ) : (
-              <button
-                className="bg-purple-400 font-semibold py-2 text-xs sm:text-sm text-black uppercase w-full btn btn-primary disabled"
-                disabled
-              >
-                Payer
-              </button>
-            )}
-          </div>
-        </article>
+          </li>
+        )}
+      </ul>
+      <div className="space-y-1 text-right text-green-600 font-bold">
+        <p>
+          Montant Total : <span>{cartItems.reduce((total, item) => total + item.quantity * item.price, 0)} € </span>
+        </p>
       </div>
-    </section>
+      <div className="flex justify-end space-x-4">
+        <button type="button" className="px-6 py-2 border  rounded-md hover:bg-gray-900 hover:text-white-900 font-semibold" onClick={handleContinueShopping}>
+          Retour
+          <span className="sr-only sm:not-sr-only"> à la boutique</span>
+        </button>
+        <button type="button" className="px-6 py-2 border rounded-md bg-violet-400 text-gray-900 hover:bg-violet-300 hover:text-white-dark:border-violet-400 font-semibold" onClick={handleCheckout}>
+          <span className="sr-only sm:not-sr-only">Paiement</span>
+        </button>
+      </div>
+    </div>
   );
 };
 

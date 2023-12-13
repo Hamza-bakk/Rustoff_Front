@@ -1,22 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'; // Assurez-vous que ces imports sont corrects
 import Cookies from 'js-cookie';
 import { useAtom } from 'jotai';
-import { userAtom} from '../../stores/userAtom';
-import { useParams, useNavigate } from 'react-router-dom'; 
+import { userAtom } from '../../stores/userAtom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 const Cart = () => {
-  const { cartId } = useParams(); // Utilisez useParams pour obtenir cartId du chemin d'accès
+  const { cartId } = useParams();
   const navigate = useNavigate();
   const [user] = useAtom(userAtom);
   const [cartTotal, setCartTotal] = useState(0);
   const [cartItems, setCartItems] = useState([]);
-  
 
   useEffect(() => {
-
-  
     const fetchData = async () => {
       if (user.id && user.token && cartId) {
         try {
@@ -29,23 +26,21 @@ const Cart = () => {
         navigate('/login');
       }
     };
-  
+
     fetchData();
   }, [user.id, cartId]);
 
-  
   const fetchCartDetails = async () => {
     try {
-
-        const response = await fetch(`${API_URL}/cart/${cartId}`, {
-          method: 'GET',
+      const response = await fetch(`${API_URL}/cart/${cartId}`, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${user.token}`,
         },
         credentials: 'include',
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         const userId = user.id;
@@ -57,43 +52,36 @@ const Cart = () => {
         console.error('Unauthorized. Redirecting to login page.');
         navigate('/login');
       } else {
-        // Gérez les autres cas d'erreur ici
         throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
       }
     } catch (error) {
       console.error('Error during fetchCartDetails:', error);
     }
   };
+
+  console.log('cart items dans show cart', cartItems);
+
+  const handleDeleteItem = async (itemId) => {
+    try {
+      const userId = user.id;
+      const cartItemsFromCookie = JSON.parse(Cookies.get(`cartItems_${userId}`) || '[]');
   
-
-console.log('cart items dans show cart', cartItems);
-const handleDeleteItem = async (itemId) => {
-  try {
-    const response = await fetch(`${API_URL}/cart/${cartId}/item/${itemId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${user.token}`,
-      },
-      credentials: 'include',
-    });
-
-    if (response.ok) {
       // Filtrer les articles du panier pour exclure celui qui vient d'être supprimé
-      const updatedCartItems = cartItems.filter(item => item.id !== itemId);
-      
-      // Mettre à jour l'état du panier avec les articles mis à jour
-      setCartItems(updatedCartItems);
-
+      const updatedCartItemsFromCookie = cartItemsFromCookie.filter(item => item.id !== itemId);
+  
+      // Mettre à jour le cookie avec les articles mis à jour
+      Cookies.set(`cartItems_${userId}`, JSON.stringify(updatedCartItemsFromCookie), { expires: 1 });
+  
+      // Mettre à jour l'état du panier (s'il est stocké dans le contexte, le state, ou ailleurs)
+      setCartItems(updatedCartItemsFromCookie);
+  
       // Mettre à jour le total du panier
       fetchCartDetails();
-    } else {
-      throw new Error(`Failed to delete item: ${response.status} ${response.statusText}`);
+    } catch (error) {
+      console.error('Error during handleDeleteItem:', error);
     }
-  } catch (error) {
-    console.error('Error during handleDeleteItem:', error);
-  }
-};
+  };
+  
 
   const handleContinueShopping = () => {
     navigate('/boutique');
@@ -102,7 +90,6 @@ const handleDeleteItem = async (itemId) => {
   const handleCheckout = () => {
     navigate(`/checkout`);
   };
-
 
   return (
     <div className="flex flex-col rounded max-w-3xl mt-4 p-6 space-y-4 sm:p-10 bg-gray-800 text-gray-100 mx-auto my-auto">

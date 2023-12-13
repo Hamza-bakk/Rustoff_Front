@@ -131,6 +131,11 @@ function App() {
           path="/register"
           element={<MainLayout><Register /></MainLayout>}
         />
+
+        <Route
+          path="/edit-password"
+          element={<MainLayout><NewPassword /></MainLayout>}
+        />
         <Route
           path="/login"
           element={<MainLayout><Login /></MainLayout>}

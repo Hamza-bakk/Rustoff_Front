@@ -71,8 +71,7 @@ const LoginForm = () => {
   };
 
   return (
-<div className="flex items-center justify-center h-screen">
-    <div className="bg-gray-800 rounded-md max-w-md mx-auto p-8">
+    <div className="bg-gray-800 rounded-md max-w-md mx-auto p-8 mt-32">
       <img src={logo} alt="Logo" className="w-35 h-16 mx-auto mb-4" />
       <h2 className="font-extrabold text-2xl text-violet-400 text-center mb-4">Se Connecter</h2>
 
@@ -128,7 +127,6 @@ const LoginForm = () => {
       </Form.Item>
     </Form>
   </div>
-</div>
 );
       }
 

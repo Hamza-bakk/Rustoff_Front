@@ -149,7 +149,7 @@ const handleDeleteItem = async (itemId) => {
       </ul>
       <div className="space-y-1 text-right text-green-600 font-bold">
         <p>
-          Montant Total : <span>{cartItems.reduce((total, item) => total + item.quantity * item.price, 0)} € </span>
+          Montant Total : <span>{(cartItems.reduce((total, item) => total + item.quantity * item.price, 0)).toFixed(2)} € </span>
         </p>
       </div>
       <div className="flex justify-end space-x-4">

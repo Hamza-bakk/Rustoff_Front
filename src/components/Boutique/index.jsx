@@ -57,20 +57,38 @@ const Boutique = () => {
       const userId = user.id;
       const existingCartItems = JSON.parse(Cookies.get(`cartItems_${userId}`) || '[]');
       const existingProductIndex = existingCartItems.findIndex((cartItem) => cartItem.id === item.id);
-
+  
       if (existingProductIndex >= 0) {
-        existingCartItems[existingProductIndex].quantity += quantity;
+        // L'article est déjà présent dans le panier
+        const existingProduct = existingCartItems[existingProductIndex];
+        showNotification(`${existingProduct.title} est déjà dans votre panier.`);
       } else {
-        const newCartItem = { ...item, quantity: quantity };
+        // L'article n'est pas encore dans le panier
+        // Ajoutez-le avec une quantité de 1
+        const newCartItem = { ...item, quantity: 1 };
         existingCartItems.push(newCartItem);
+        Cookies.set(`cartItems_${userId}`, JSON.stringify(existingCartItems), { expires: 1 });
+        showNotification(`${item.title} a été ajouté à votre panier.`);
+        navigate(`/cart/${cartId}`);
       }
-
-      Cookies.set(`cartItems_${userId}`, JSON.stringify(existingCartItems), { expires: 1 });
-      navigate(`/cart/${cartId}`);
     } else {
       console.error("Utilisateur non connecté ou identifiant d'utilisateur non défini");
     }
   };
+  
+  const showNotification = (message) => {
+    // Vérifie si le navigateur prend en charge les notifications
+    if ('Notification' in window) {
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          // Crée et affiche la notification
+          const notification = new Notification('Boutique Rustoff', { body: message });
+        }
+      });
+    }
+  };
+  
+  
 
   const filteredItems = selectedCategory ? items.filter(item => item.category.toLowerCase() === selectedCategory.toLowerCase()) : items;
 

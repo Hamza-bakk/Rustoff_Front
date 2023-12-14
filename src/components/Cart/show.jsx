@@ -3,15 +3,39 @@ import Cookies from 'js-cookie';
 import { useAtom } from 'jotai';
 import { userAtom } from '../../stores/userAtom';
 import { useParams, useNavigate } from 'react-router-dom';
-
+import { useCart } from '../../context';
 const API_URL = `${import.meta.env.VITE_BASE_URL}`;
-
+import { notification } from 'antd';
+import { CloseCircleOutlined } from '@ant-design/icons';
+import "./cart.css";
 const Cart = () => {
   const { cartId } = useParams();
   const navigate = useNavigate();
   const [user] = useAtom(userAtom);
   const [cartTotal, setCartTotal] = useState(0);
   const [cartItems, setCartItems] = useState([]);
+  const { updateCartItemsCount } = useCart();
+
+  const showNotification = (message, type = 'success') => {
+    const config = {
+      message: <span className="notification-title">Boutique Rustoff</span>,
+      description: <span style={{ color: 'white' }}>{message}</span>,
+      placement: 'topRight',     
+      style: {
+        backgroundColor: '#1f2937', // Fond gris foncé
+        borderRadius: '8px', // Coins arrondis
+        border: '1px solid #a78bfa', // Bordure, ajustez selon vos préférences
+      },    };
+
+    if (type === 'success') {
+      notification.success(config);
+    } else if (type === 'error') {
+      notification.error({
+        ...config,
+        icon: <CloseCircleOutlined style={{ color: '#f5222d' }} />,
+      });
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,15 +96,22 @@ const Cart = () => {
       // Mettre à jour le cookie avec les articles mis à jour
       Cookies.set(`cartItems_${userId}`, JSON.stringify(updatedCartItemsFromCookie), { expires: 1 });
   
+      // Mettre à jour le nombre d'articles dans le contexte global
+      updateCartItemsCount(updatedCartItemsFromCookie.length);
+  
       // Mettre à jour l'état du panier (s'il est stocké dans le contexte, le state, ou ailleurs)
       setCartItems(updatedCartItemsFromCookie);
   
       // Mettre à jour le total du panier
       fetchCartDetails();
+  
+      // Afficher une notification de suppression
+      showNotification('L\'article a été supprimé du panier.', 'success');
     } catch (error) {
       console.error('Error during handleDeleteItem:', error);
     }
   };
+  
   
 
   const handleContinueShopping = () => {

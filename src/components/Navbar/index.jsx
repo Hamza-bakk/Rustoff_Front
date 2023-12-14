@@ -5,7 +5,7 @@ import { userAtom } from '../../stores/userAtom';
 import LogoutButton from '../Auth/Logout';
 import logo from '../../assets/rust.png';
 import { FaBars, FaShoppingCart } from "react-icons/fa";
-
+import { useCart } from '../../context';
 const NavBar = () => {
   const [userInfo] = useAtom(userAtom);
   const navigate = useNavigate();
@@ -19,6 +19,9 @@ const NavBar = () => {
   const handleProfileClick = () => {
     navigate('/profiles/id');
   };
+
+  const { cartItemsCount } = useCart();
+
 
   return (
     <nav className="bg-gray-800 top-0 left-0 w-full z-10">
@@ -58,7 +61,10 @@ const NavBar = () => {
           <div className="flex items-center space-x-4">
             {userInfo.isLoggedIn ? (
               <>
-                <FaShoppingCart className="text-gray-300 text-2xl mr-4 cursor-pointer" onClick={handleCartClick} />
+            <div className="hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium flex items-center">
+              <FaShoppingCart className="text-gray-300 text-2xl cursor-pointer" onClick={handleCartClick} />
+              <span className="text-gray-300 ml-2 text-1xl cursor-pointer">{cartItemsCount}</span>
+            </div>
                 <Link to={`/profiles/${userInfo.id}`} onClick={handleProfileClick} className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
                   Mon Profil
                 </Link>

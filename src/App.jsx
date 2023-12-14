@@ -28,6 +28,7 @@ import RefundPolicySection from './components/Footer/RefundPolicySection';
 import Faq from './pages/Faq/';
 import Profile from './pages/Profile/';
 import Quotes from './pages/Quotes/';
+import { CartProvider } from './context';
 
 // Components
 import NavBar from './components/Navbar';
@@ -103,6 +104,7 @@ function App() {
   }, []);
 
   return (
+    <CartProvider>
     <Router>
       <Routes>
         <Route
@@ -131,7 +133,6 @@ function App() {
           path="/register"
           element={<MainLayout><Register /></MainLayout>}
         />
-
         <Route
           path="/edit-password"
           element={<MainLayout><NewPassword /></MainLayout>}
@@ -213,6 +214,7 @@ function App() {
         />
       </Routes>
     </Router>
+    </CartProvider>
   );
 }
 

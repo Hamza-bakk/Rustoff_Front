@@ -18,6 +18,7 @@ const Register = () => {
     setError('');
 
     try {
+      console.log(API_URL);
       const response = await fetch(`${API_URL}/users`, {
         method: 'POST',
         headers: {

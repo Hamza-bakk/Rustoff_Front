@@ -33,7 +33,8 @@ import { CartProvider } from './context';
 // Components
 import NavBar from './components/Navbar';
 import Footer from './components/Footer';
-
+import ProtectedRoute from './components/ProtectedRoutes';
+import ProtectedRouteAdmin from './components/ProtectedRoutes/protectadmin';
 // Admin Dashboard
 import Admin from './pages/Admin/admin';
 import Sidebar from './components/Dashboard/SideBar';
@@ -93,10 +94,13 @@ function App() {
   useEffect(() => {
     const token = Cookies.get('token');
     const cartId = Cookies.get('cartId');
+    const isAdmin = Cookies.get('isAdmin') === 'true'; // Convertissez la chaîne en booléen
 
     if (token) {
+
       setUser({
         isLoggedIn: true,
+        isAdmin: isAdmin,
         token: token,
         cartId: cartId,
       });
@@ -169,15 +173,16 @@ function App() {
           path="/profiles/:userId"
           element={<MainLayout><Profile /></MainLayout>}
         />
-        <Route
-          path="/quotes"
-          element={<MainLayout><Quotes /></MainLayout>}
-        />
+          <Route
+            path="/quotes"
+            element={<ProtectedRoute><MainLayout><Quotes /></MainLayout></ProtectedRoute>}
+          />
 
         {/* Route Admin */}
         <Route
           path="/admin/*"
           element={
+            <ProtectedRouteAdmin>
             <div style={{display : 'flex'}}>
               <Sidebar />
               {/* Main Content */}
@@ -210,6 +215,7 @@ function App() {
                 </Routes>
               </div>
             </div>
+            </ProtectedRouteAdmin>
           }
         />
       </Routes>

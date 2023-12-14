@@ -10,6 +10,7 @@ const NavBar = () => {
   const [userInfo] = useAtom(userAtom);
   const navigate = useNavigate();
 
+  
 
   const handleCartClick = () => {
     const cartId = Cookies.get('cartId');
@@ -39,7 +40,7 @@ const NavBar = () => {
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
                 {userInfo.isLoggedIn && userInfo.isAdmin && (
-                  <Link to="/dashboard" className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium">
+                  <Link to="/admin" className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium">
                     Dashboard
                   </Link>
                 )}
@@ -81,27 +82,6 @@ const NavBar = () => {
               </>
             )}
           </div>
-        </div>
-      </div>
-      <div className="sm:hidden" id="mobile-menu">
-        <div className="space-y-1 px-2 pb-3 pt-2">
-          {userInfo.isLoggedIn && userInfo.isAdmin && (
-            <Link to="/dashboard" className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium">
-              Dashboard
-            </Link>
-          )}
-          <Link to="/" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">
-            Accueil
-          </Link>
-          <Link to="/boutique" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">
-            Boutique
-          </Link>
-          <Link to="/portfolio" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">
-            Portfolio
-          </Link>
-          <Link to="/faq" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">
-            FAQ
-          </Link>
         </div>
       </div>
     </nav>

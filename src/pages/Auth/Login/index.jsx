@@ -75,9 +75,6 @@ const LoginForm = () => {
     <Form
       name="normal_login"
       className="login-form"
-      initialValues={{
-        remember: true,
-      }}
       onFinish={handleLogin}
     >
       <Form.Item
@@ -106,22 +103,16 @@ const LoginForm = () => {
             placeholder="Mot de Passe"
           />
         </Form.Item>
-      <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox className="text-white">Remember me</Checkbox>
+
+        <Form.Item>
+          <Button type="" htmlType="submit" className="login-form-button font-bold bg-violet-400 hover:bg-violet-300">
+            Connexion
+          </Button>
+          <a href="/register" className="text-white ml-2">Ou Inscrit toi !</a>
+          <a className="login-form-forgot text-white" href="">
+            Mot de passe perdu ?
+          </a>
         </Form.Item>
-
-        <a className="login-form-forgot text-white" href="">
-          Mot de passe perdu ?
-        </a>
-      </Form.Item>
-
-      <Form.Item>
-      <Button type="" htmlType="submit" className="login-form-button font-bold bg-violet-400 hover:bg-violet-300">
-        Connexion
-      </Button>
-        <a href="/register" className="text-white">Ou Inscrit toi !</a>
-      </Form.Item>
     </Form>
   </div>
 );

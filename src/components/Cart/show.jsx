@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react'; // Assurez-vous que ces imports sont corrects
+import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useAtom } from 'jotai';
 import { userAtom } from '../../stores/userAtom';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context';
-const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 import { notification } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import "./cart.css";
+
+const API_URL = `${import.meta.env.VITE_BASE_URL}`;
+
 const Cart = () => {
   const { cartId } = useParams();
   const navigate = useNavigate();
@@ -22,10 +24,11 @@ const Cart = () => {
       description: <span style={{ color: 'white' }}>{message}</span>,
       placement: 'topRight',     
       style: {
-        backgroundColor: '#1f2937', // Fond gris foncé
-        borderRadius: '8px', // Coins arrondis
-        border: '1px solid #a78bfa', // Bordure, ajustez selon vos préférences
-      },    };
+        backgroundColor: '#1f2937',
+        borderRadius: '8px',
+        border: '1px solid #a78bfa',
+      },
+    };
 
     if (type === 'success') {
       notification.success(config);
@@ -83,37 +86,27 @@ const Cart = () => {
     }
   };
 
-  console.log('cart items dans show cart', cartItems);
-
   const handleDeleteItem = async (itemId) => {
     try {
       const userId = user.id;
       const cartItemsFromCookie = JSON.parse(Cookies.get(`cartItems_${userId}`) || '[]');
   
-      // Filtrer les articles du panier pour exclure celui qui vient d'être supprimé
       const updatedCartItemsFromCookie = cartItemsFromCookie.filter(item => item.id !== itemId);
   
-      // Mettre à jour le cookie avec les articles mis à jour
       Cookies.set(`cartItems_${userId}`, JSON.stringify(updatedCartItemsFromCookie), { expires: 1 });
   
-      // Mettre à jour le nombre d'articles dans le contexte global
       updateCartItemsCount(updatedCartItemsFromCookie.length);
   
-      // Mettre à jour l'état du panier (s'il est stocké dans le contexte, le state, ou ailleurs)
       setCartItems(updatedCartItemsFromCookie);
   
-      // Mettre à jour le total du panier
       fetchCartDetails();
   
-      // Afficher une notification de suppression
       showNotification('L\'article a été supprimé du panier.', 'success');
     } catch (error) {
       console.error('Error during handleDeleteItem:', error);
     }
   };
   
-  
-
   const handleContinueShopping = () => {
     navigate('/boutique');
   };
@@ -142,7 +135,7 @@ const Cart = () => {
                     </div>
                   </div>
                   <div className="flex text-sm divide-x">
-                  <button type="button" className="flex items-center px-2 py-1 pl-0 text-red-500 hover:text-red-700 space-x-1" onClick={() => handleDeleteItem(item.id)}>
+                    <button type="button" className="flex items-center px-2 py-1 pl-0 text-red-500 hover:text-red-700 space-x-1" onClick={() => handleDeleteItem(item.id)}>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-4 h-4 fill-current">
                         <path d="M96,472a23.82,23.82,0,0,0,23.579,24H392.421A23.82,23.82,0,0,0,416,472V152H96Zm32-288H384V464H128Z"></path>
                         <rect width="32" height="200" x="168" y="216"></rect>
@@ -171,12 +164,12 @@ const Cart = () => {
         </p>
       </div>
       <div className="flex justify-end space-x-4">
-        <button type="button" className="px-6 py-2 border  rounded-md hover:bg-gray-900 hover:text-white-900 font-semibold" onClick={handleContinueShopping}>
+        <button type="button" className="px-6 py-2 border rounded-md hover:bg-gray-900 hover:text-white-900 font-semibold" onClick={handleContinueShopping}>
           Retour
           <span className="sr-only sm:not-sr-only"> à la boutique</span>
         </button>
         <button type="button" className="px-6 py-2 border rounded-md bg-violet-400 text-gray-900 hover:bg-violet-300 hover:text-white-dark:border-violet-400 font-semibold" onClick={handleCheckout}>
-          <span className="sr-only sm:not-sr-only">Paiement</span>
+          <span className="">Paiement</span>
         </button>
       </div>
     </div>

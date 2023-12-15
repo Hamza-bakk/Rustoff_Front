@@ -14,7 +14,7 @@ const FaqSection = () => {
         <h2 className="text-2xl font-semibold sm:text-4xl text-center">
           Foire aux questions (FAQ)
         </h2>
-        <p className="mt-4 mb-8 dark:text-violet-600 text-center">
+        <p className="mt-4 mb-8 test-black text-center">
           Réponses à vos questions fréquentes sur nos services.
         </p>
         <div className="space-y-4">

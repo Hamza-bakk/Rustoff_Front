@@ -6,6 +6,8 @@ export const userAtom = atom({
   token: null,
   cartId: null,
   isAdmin: false,
+  email: null,
+
 });
 
 // Atome pour stocker les informations du panier

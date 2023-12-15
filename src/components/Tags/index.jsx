@@ -166,9 +166,9 @@ const Gallery = () => {
           Portfolio :
         </h1>
       </section>
-      <section className="container mx-auto flex space-x-4 items-center justify-center linkContainer">
-        {categories.map(({ category, label }) => generateLink(category, label))}
-      </section>
+      <section className="container mx-auto flex flex-wrap space-x-2 sm:space-x-4 md:space-x-6 lg:space-x-8 xl:space-x-10 items-center justify-center linkContainer">
+  {categories.map(({ category, label }) => generateLink(category, label))}
+</section>
       <div className="image-gallery grid grid-cols-3 gap-4 galleryContainer">
         {selectedCategory && (
           <>

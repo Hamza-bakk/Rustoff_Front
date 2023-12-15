@@ -171,7 +171,7 @@ function App() {
         />
         <Route
           path="/profiles/:userId"
-          element={<MainLayout><Profile /></MainLayout>}
+          element={<ProtectedRoute><MainLayout><Profile /></MainLayout></ProtectedRoute>}
         />
           <Route
             path="/quotes"

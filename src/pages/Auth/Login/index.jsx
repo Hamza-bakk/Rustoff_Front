@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input, message } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import Cookies from 'js-cookie';
 import { useAtom } from 'jotai';
 import { userAtom } from '../../../stores/userAtom';

@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAtom } from 'jotai';
-import { userAtom, cartAtom } from './stores/userAtom';
+import { userAtom } from './stores/userAtom';
 import Cookies from 'js-cookie';
 import {loadStripe} from '@stripe/stripe-js';
 import {
@@ -35,6 +36,7 @@ import NavBar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoutes';
 import ProtectedRouteAdmin from './components/ProtectedRoutes/protectadmin';
+// import NoRightClickImage from './components/NoRightClickImage';
 // Admin Dashboard
 import Admin from './pages/Admin/admin';
 import Sidebar from './components/Dashboard/SideBar';
@@ -46,6 +48,26 @@ import ProductsAdmin from './components/Dashboard/ProductsAdmin';
 
 // eslint-disable-next-line react/prop-types
 function MainLayout({ children }) {
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+      alert("Dommage bien essayé !");
+    };
+
+    const images = document.querySelectorAll('img');
+    images.forEach((img) => {
+      img.addEventListener('contextmenu', handleContextMenu);
+    });
+
+    return () => {
+      images.forEach((img) => {
+        img.removeEventListener('contextmenu', handleContextMenu);
+      });
+    };
+  }, [location]);
+
   return (
     <div className="flex flex-col min-h-screen">
       <NavBar />
@@ -105,6 +127,7 @@ function App() {
         cartId: cartId,
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

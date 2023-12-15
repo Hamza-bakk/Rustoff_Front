@@ -2,6 +2,7 @@ import { useAtom } from 'jotai';
 import { userAtom } from '../../stores/userAtom';
 import { Navigate } from 'react-router-dom';
 
+// eslint-disable-next-line react/prop-types
 const ProtectedRoutesAdmin = ({ children }) => {
   const [user] = useAtom(userAtom);
 

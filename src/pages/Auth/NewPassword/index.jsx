@@ -9,7 +9,7 @@ import logo from '../../../assets/rust.png';
 const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 const NewPassword = () => {
-  const [user, setUser] = useAtom(userAtom);
+  const [user] = useAtom(userAtom);
   const [form] = Form.useForm(); // Utilisation de Form.useForm()
   const [loading, setLoading] = useState(false); // Ajout d'un état pour gérer le chargement
   const navigate = useNavigate();

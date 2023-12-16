@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useAtom } from 'jotai';
 import { userAtom } from '../../stores/userAtom';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, redirect } from 'react-router-dom';
 import { useCart } from '../../context';
 import { notification } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
@@ -114,33 +114,47 @@ const Cart = () => {
     const stripe = await stripePromise;
   
     try {
-      const response = await fetch(`${API_URL}/create-checkout-session`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({ cartItems, total: (cartItems.reduce((total, item) => total + item.quantity * item.price, 0)).toFixed(2) }),
-      });
-  
-      const session = await response.json();
-      console.log('Session ID received from server:', session.id);
-
-      if (session.id) {
-        const result = await stripe.redirectToCheckout({
-          sessionId: session.id,
+      if (user.id && cartId) {
+        const response = await fetch(`${API_URL}/checkout/create`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${user.token}`,
+          },
+          body: JSON.stringify({
+            cartItems,
+            total: (cartItems.reduce((total, item) => total + item.quantity * item.price, 0)).toFixed(2),
+          }),
         });
   
-        if (result.error) {
-          console.error(result.error.message);
+        const sessionData = await response.json();
+        console.log('Session ID received from server:', sessionData.id);
+  
+        if (sessionData.id) {
+          const result = await stripe.redirectToCheckout({
+            sessionId: sessionData.id,
+          });
+  
+          if (result.error) {
+            console.error(result.error.message);
+          } else {
+            const redirect = sessionData.createUrl;
+            console.log('Success URL received from server:', redirect);
+
+            window.location.href = redirect;
+          }
+        } else {
+          console.error('Invalid session data received from server');
         }
-      } else {
-        console.error('Invalid session data received from server');
       }
     } catch (error) {
-      console.error('Error during handleCheckout:', error);
+      console.error('Error during checkout:', error);
     }
   };
+  
+  
+  
+  
 
   return (
     <div className="flex flex-col rounded max-w-3xl mt-4 p-6 space-y-4 sm:p-10 bg-gray-800 text-gray-100 mx-auto my-auto">

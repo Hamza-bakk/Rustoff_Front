@@ -6,9 +6,11 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context';
 import { notification } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';
+import { loadStripe } from '@stripe/stripe-js';
 import "./cart.css";
 
 const API_URL = `${import.meta.env.VITE_BASE_URL}`;
+const stripePromise = loadStripe('pk_test_51Nd8kkD5hgWYUZtgBAR72ber6nnSecBb9WM1TPqHJDKxGJTO2AZrj0eFdQ2N4A4bH0yAP0ewS5VoOWTYSHHKYubA00lDqFS4Uh');
 
 const Cart = () => {
   const { cartId } = useParams();
@@ -21,7 +23,7 @@ const Cart = () => {
     const config = {
       message: <span className="notification-title">Boutique Rustoff</span>,
       description: <span style={{ color: 'white' }}>{message}</span>,
-      placement: 'topRight',     
+      placement: 'topRight',
       style: {
         backgroundColor: '#1f2937',
         borderRadius: '8px',
@@ -54,7 +56,6 @@ const Cart = () => {
     };
 
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.id, cartId]);
 
   const fetchCartDetails = async () => {
@@ -88,29 +89,57 @@ const Cart = () => {
     try {
       const userId = user.id;
       const cartItemsFromCookie = JSON.parse(Cookies.get(`cartItems_${userId}`) || '[]');
-  
+
       const updatedCartItemsFromCookie = cartItemsFromCookie.filter(item => item.id !== itemId);
-  
+
       Cookies.set(`cartItems_${userId}`, JSON.stringify(updatedCartItemsFromCookie), { expires: 1 });
-  
+
       updateCartItemsCount(updatedCartItemsFromCookie.length);
-  
+
       setCartItems(updatedCartItemsFromCookie);
-  
+
       fetchCartDetails();
-  
+
       showNotification('L\'article a été supprimé du panier.', 'success');
     } catch (error) {
       console.error('Error during handleDeleteItem:', error);
     }
   };
-  
+
   const handleContinueShopping = () => {
     navigate('/boutique');
   };
 
-  const handleCheckout = () => {
-    navigate(`/checkout`);
+  const handleCheckout = async () => {
+    const stripe = await stripePromise;
+  
+    try {
+      const response = await fetch(`${API_URL}/create-checkout-session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
+        },
+        body: JSON.stringify({ cartItems, total: (cartItems.reduce((total, item) => total + item.quantity * item.price, 0)).toFixed(2) }),
+      });
+  
+      const session = await response.json();
+      console.log('Session ID received from server:', session.id);
+
+      if (session.id) {
+        const result = await stripe.redirectToCheckout({
+          sessionId: session.id,
+        });
+  
+        if (result.error) {
+          console.error(result.error.message);
+        }
+      } else {
+        console.error('Invalid session data received from server');
+      }
+    } catch (error) {
+      console.error('Error during handleCheckout:', error);
+    }
   };
 
   return (
@@ -126,8 +155,8 @@ const Cart = () => {
                   src={item.image_url}
                   alt={item.alt}
                   onContextMenu={(e) => e.preventDefault()}
-                />                
-              <div className="flex flex-col justify-between w-full pb-4">
+                />
+                <div className="flex flex-col justify-between w-full pb-4">
                   <div className="flex justify-between w-full pb-2 space-x-2">
                     <div className="space-y-1">
                       <h3 className="text-lg font-semibold leading sm:pr-8">{item.title}</h3>

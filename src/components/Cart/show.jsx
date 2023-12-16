@@ -29,6 +29,7 @@ const Cart = () => {
         borderRadius: '8px',
         border: '1px solid #a78bfa',
       },
+      closeIcon: <CloseCircleOutlined style={{ color: 'white' }} />,
     };
 
     if (type === 'success') {

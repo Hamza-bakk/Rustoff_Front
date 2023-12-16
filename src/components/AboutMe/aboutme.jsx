@@ -1,3 +1,6 @@
+import { FiInstagram,  } from 'react-icons/fi';
+import { FaXTwitter } from "react-icons/fa6";
+
 import PP from '/src/assets/rusty.png';
 
 const AboutMe = () => {
@@ -47,15 +50,33 @@ const AboutMe = () => {
                 Me contacter
               </a>
             </div>
+            <div className="flex items-center justify-center">
+              <a
+                href="https://www.instagram.com/rustyy_off/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-400 hover:text-purple-500 mr-6"
+              >
+                <FiInstagram className="h-8 w-6" />
+              </a>
+              <a
+                href="https://twitter.com/rustyoff"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-400 hover:text-purple-500"
+              >
+                <FaXTwitter className="h-8 w-6" />
+              </a>
+            </div>
           </div>
         </article>
         <div className="w-full lg:w-2/5 relative lg:-ml-6">
-  <img
-    src={PP}
-    alt="Photo de profil dessinée de Rustoff avec un crayon dans les mains"
-    className="rounded-none lg:rounded-lg  shadow-2xl hidden lg:block custom-image"
-  />
-</div>
+          <img
+            src={PP}
+            alt="Photo de profil dessinée de Rustoff avec un crayon dans les mains"
+            className="rounded-none lg:rounded-lg  shadow-2xl hidden lg:block custom-image"
+          />
+        </div>
       </section>
     </>
   );

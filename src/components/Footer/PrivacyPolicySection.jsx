@@ -6,7 +6,7 @@ const PrivacyPolicySection = () => {
         <h1 className="text-3xl font-bold mb-6">Politique de Confidentialité</h1>
         <article>
           <p className="mb-4">
-            Rustoff exploite le site web <a href="https://rustoff-621db6cfed24.herokuapp.com/" className="text-blue-500">https://rustoff-621db6cfed24.herokuapp.com/</a>.
+            Rustoff exploite le site web <a href="https://rustoff.vercel.app/" className="text-blue-500">https://rustoff.vercel.app/</a>.
           </p>
           <p className="mb-4">
             Cette page vous informera de nos politiques en matière de collecte, d'utilisation et de divulgation des informations personnelles que nous recevons des utilisateurs de l'Application et du Site. En utilisant l'Application ou le Site, vous consentez à la collecte et à l'utilisation des informations conformément à cette politique.

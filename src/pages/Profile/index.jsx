@@ -53,10 +53,17 @@ const Profile = () => {
   const handleDeleteUser = async () => {
     try {
       const authToken = Cookies.get('token');
-  
+      
       if (!userId || !authToken) {
         console.error('ID utilisateur ou token non disponible lors de la suppression de l\'utilisateur');
         return;
+      }
+  
+      // Utiliser window.confirm pour demander confirmation
+      const isConfirmed = window.confirm('Êtes-vous sûr de vouloir supprimer votre compte ?');
+  
+      if (!isConfirmed) {
+        return; // Annuler la suppression si l'utilisateur n'a pas confirmé
       }
   
       console.log('ID utilisateur à supprimer :', userId);

@@ -3,13 +3,15 @@ import BannerProfile from '../../assets/images/illustrations/jap.png';
 import Avatar from '../../assets/images/rust.png';
 import Cookies from 'js-cookie';
 import { useNavigate, useParams } from 'react-router-dom';
+import { notification } from 'antd';
 
 const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 const Profile = () => {
   const [user, setUser] = useState({});
+  const [newEmail, setNewEmail] = useState('');
   const navigate = useNavigate();
-  const { userId } = useParams(); // Utilisation de "userId" au lieu de "id"
+  const { userId } = useParams();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -49,6 +51,43 @@ const Profile = () => {
 
     fetchUserProfile();
   }, [userId]);
+
+  const openNotification = (type, message) => {
+    notification[type]({
+      message: message,
+    });
+  };
+
+  const handleUpdateEmail = async () => {
+    try {
+      const authToken = Cookies.get('token');
+
+      if (!userId || !authToken || !newEmail) {
+        console.error('ID utilisateur, token ou nouvel email non disponibles lors de la mise à jour de l\'email');
+        return;
+      }
+      const response = await fetch(`${API_URL}/profiles/${userId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({ user: { email: newEmail } }),
+      });
+
+      if (response.ok) {
+        console.log('Email mis à jour avec succès');
+        openNotification('success', 'Email mis à jour avec succès'); // Affiche la notification de succès
+        // Tu peux également mettre à jour localement l'email dans l'état si nécessaire
+      } else {
+        console.error('Erreur lors de la mise à jour de l\'email:', response.statusText);
+        openNotification('error', 'Erreur lors de la mise à jour de l\'email'); // Affiche la notification d'erreur
+      }
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour de l\'email:', error);
+      openNotification('error', 'Erreur lors de la mise à jour de l\'email'); // Affiche la notification d'erreur
+    }
+  };
 
   const handleDeleteUser = async () => {
     try {
@@ -115,22 +154,42 @@ const Profile = () => {
       </article>
       <article className="p-4 mt-2 flex flex-wrap justify-center gap-4">
         <div>
-          <a href="/edit-profile" className="bg-purple-400 hover:bg-purple-300 text-black font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">Modifier le profil</a>
+          <a href="/edit-profile" className="bg-purple-400 hover:bg-purple-300 text-black font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">
+            Modifier le profil
+          </a>
         </div>
         <div>
-        <a href={`/edit-password/${userId}`} className="bg-purple-400 hover:bg-purple-300 text-black font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">Modifier le Mot de passe</a>
+          <a href={`/edit-password/${userId}`} className="bg-purple-400 hover:bg-purple-300 text-black font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">
+            Modifier le Mot de passe
+          </a>
         </div>
         <div>
           <a href={`/mescommandes`} className="bg-gray-500 hover:bg-gray-400 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">Mes Commandes</a>
         </div>
         <div>
-        <button
-          onClick={handleDeleteUser}
-          className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Supprimer mon compte
-        </button>
+          <button
+            onClick={handleDeleteUser}
+            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Supprimer mon compte
+          </button>
         </div>
+      </article>
+      {/* Formulaire de mise à jour d'email */}
+      <article className="p-4 mt-2">
+        <input
+          type="email"
+          placeholder="Nouvel email"
+          value={newEmail}
+          onChange={(e) => setNewEmail(e.target.value)}
+          className="bg-gray-100 border-2 border-gray-300 p-2 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+        />
+        <button
+          onClick={handleUpdateEmail}
+          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2"
+        >
+          Mettre à jour l'email
+        </button>
       </article>
     </section>
   );

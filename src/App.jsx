@@ -45,6 +45,7 @@ import UsersAdmin from './components/Dashboard/UsersAdmin';
 import OrdersAdmin from './components/Dashboard/OrdersAdmin';
 import StoreAdmin from './components/Dashboard/StoreAdmin';
 import ProductsAdmin from './components/Dashboard/ProductsAdmin';
+import ShowOrder from './components/Order/show';
 
 // eslint-disable-next-line react/prop-types
 function MainLayout({ children }) {
@@ -128,68 +129,75 @@ function App() {
 
   return (
     <CartProvider>
-      <Router>
-        <Routes>
-          <Route
-            path="/"
-            element={<MainLayout><Home /></MainLayout>}
-          />
-          <Route
-            path="/boutique"
-            element={<MainLayout><Boutiques /></MainLayout>}
-          />
-          <Route
-            path="/cart/:cartId"
-            element={<MainLayout><Cart /></MainLayout>}
-          />
-          <Route
-            path="/order"
-            element={<MainLayout><Order /></MainLayout>}
-          />
-          <Route
-            path="/item/:itemId"
-            element={<MainLayout><ShowBoutique /></MainLayout>}
-          />
-          <Route
-            path="/register"
-            element={<MainLayout><Register /></MainLayout>}
-          />
-          <Route
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={<MainLayout><Home /></MainLayout>}
+        />
+        <Route
+          path="/boutique"
+          element={<MainLayout><Boutiques /></MainLayout>}
+        />
+        <Route
+          path="/cart/:cartId"
+          element={<MainLayout><Cart /></MainLayout>}
+        />
+
+        <Route
+          path="/order"
+          element={<MainLayout><Order /></MainLayout>}
+        />
+
+        <Route
+          path="/mescommandes"
+          element={<MainLayout><ShowOrder /></MainLayout>}
+        />
+
+        <Route
+          path="/item/:itemId"
+          element={<MainLayout><ShowBoutique /></MainLayout>}
+        />
+        <Route
+          path="/register"
+          element={<MainLayout><Register /></MainLayout>}
+        />
+        <Route
             path="/edit-password/:userId"
             element={<MainLayout><NewPassword /></MainLayout>}
-          />
-          <Route
-            path="/login"
-            element={<MainLayout><Login /></MainLayout>}
-          />
-          <Route
-            path="/newpassword"
-            element={<MainLayout><NewPassword /></MainLayout>}
-          />
-          <Route
-            path="/mentions-legales"
-            element={<MainLayout><LegalSection /></MainLayout>}
-          />
-          <Route
-            path="/politique-confidentialite"
-            element={<MainLayout><PrivacyPolicySection /></MainLayout>}
-          />
-          <Route
-            path="/politique-remboursement"
-            element={<MainLayout><RefundPolicySection /></MainLayout>}
-          />
-          <Route
-            path="/faq"
-            element={<MainLayout><Faq /></MainLayout>}
-          />
-          <Route
-            path="/portfolio"
-            element={<MainLayout><Portfolio /></MainLayout>}
-          />
-          <Route
-            path="/profiles/:userId"
-            element={<ProtectedRoute><MainLayout><Profile /></MainLayout></ProtectedRoute>}
-          />
+        />
+        <Route
+          path="/login"
+          element={<MainLayout><Login /></MainLayout>}
+        />
+        <Route
+          path="/newpassword"
+          element={<MainLayout><NewPassword /></MainLayout>}
+        />
+        <Route
+          path="/mentions-legales"
+          element={<MainLayout><LegalSection /></MainLayout>}
+        />
+        <Route
+          path="/politique-confidentialite"
+          element={<MainLayout><PrivacyPolicySection /></MainLayout>}
+        />
+        <Route
+          path="/politique-remboursement"
+          element={<MainLayout><RefundPolicySection /></MainLayout>}
+        />
+        <Route
+          path="/faq"
+          element={<MainLayout><Faq /></MainLayout>}
+        />
+        <Route
+          path="/portfolio"
+          element={<MainLayout><Portfolio /></MainLayout>}
+        />
+        <Route
+          path="/profiles/:userId"
+          element={<ProtectedRoute><MainLayout><Profile /></MainLayout></ProtectedRoute>}
+        />
           <Route
             path="/quotes"
             element={<ProtectedRoute><MainLayout><Quotes /></MainLayout></ProtectedRoute>}

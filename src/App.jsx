@@ -45,6 +45,7 @@ import UsersAdmin from './components/Dashboard/UsersAdmin';
 import OrdersAdmin from './components/Dashboard/OrdersAdmin';
 import StoreAdmin from './components/Dashboard/StoreAdmin';
 import ProductsAdmin from './components/Dashboard/ProductsAdmin';
+import ShowOrder from './components/Order/show';
 
 // eslint-disable-next-line react/prop-types
 function MainLayout({ children }) {
@@ -150,6 +151,11 @@ function App() {
         <Route
           path="/order"
           element={<MainLayout><Order /></MainLayout>}
+        />
+
+<Route
+          path="/mescommandes"
+          element={<MainLayout><ShowOrder /></MainLayout>}
         />
 
         <Route

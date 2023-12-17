@@ -118,7 +118,7 @@ const Profile = () => {
           <a href="/edit-profile" className="bg-purple-400 hover:bg-purple-300 text-black font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">Modifier le profil</a>
         </div>
         <div>
-          <a href="/edit-password" className="bg-purple-400 hover:bg-purple-300 text-black font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">Modifier le Mot de passe</a>
+        <a href={`/edit-password/${userId}`} className="bg-purple-400 hover:bg-purple-300 text-black font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">Modifier le Mot de passe</a>
         </div>
         <div>
           <a href="/order" className="bg-gray-500 hover:bg-gray-400 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">Mes Commandes</a>

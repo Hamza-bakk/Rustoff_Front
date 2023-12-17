@@ -1,29 +1,40 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { useAtom } from 'jotai';
 import { userAtom } from '../../../stores/userAtom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { LockOutlined } from '@ant-design/icons';
 import logo from '../../../assets/rust.png';
+import Cookies from 'js-cookie';
 
 const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 const NewPassword = () => {
-  const [user] = useAtom(userAtom);
-  const [form] = Form.useForm(); // Utilisation de Form.useForm()
-  const [loading, setLoading] = useState(false); // Ajout d'un état pour gérer le chargement
+  const [user, setUser] = useAtom(userAtom);
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { userId } = useParams();
+
+  useEffect(() => {
+    const loggedInUserId = Cookies.get('user_id');
+    if (loggedInUserId && Number(userId) !== Number(loggedInUserId)) {
+      message.error("Vous n'êtes pas autorisé à effectuer cette action.");
+      navigate('/');
+    }
+  }, [userId, navigate]);
 
   const onFinish = async (values) => {
-    form.resetFields(); // Réinitialiser les champs du formulaire
-    setLoading(true); // Activer le chargement
+    form.resetFields();
+    setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/users/edit_password/update`, {
+      const loggedInToken = Cookies.get('token');
+      const response = await fetch(`${API_URL}/users/edit_password/update/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.token}`,
+          'Authorization': `Bearer ${loggedInToken}`,
         },
         body: JSON.stringify({
           user: {
@@ -37,6 +48,11 @@ const NewPassword = () => {
       if (response.ok) {
         console.log('Mot de passe modifié avec succès. Veuillez vous reconnecter.');
         message.success('Mot de passe modifié avec succès. Veuillez vous reconnecter.');
+
+        setUser({});
+        Cookies.remove('token');
+        Cookies.remove('user_id');
+
         navigate('/');
       } else {
         const data = await response.json();
@@ -45,7 +61,7 @@ const NewPassword = () => {
     } catch (error) {
       message.error('Une erreur s\'est produite lors de la modification du mot de passe');
     } finally {
-      setLoading(false); // Désactiver le chargement
+      setLoading(false);
     }
   };
 
@@ -100,7 +116,7 @@ const NewPassword = () => {
             type="primary"
             htmlType="submit"
             className="login-form-button font-bold bg-violet-400 hover:bg-violet-300"
-            loading={loading} // Ajout de l'état de chargement pour le bouton
+            loading={loading}
           >
             Modifier le mot de passe
           </Button>

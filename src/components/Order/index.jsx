@@ -19,31 +19,33 @@ const Order = () => {
         const cartItems = JSON.parse(Cookies.get(`cartItems_${userId}`) || '[]');
 
         const requestOptions = {
-          method: 'GET',
+          method: 'POST', // Utiliser la méthode POST
           headers: {
             'Content-Type': 'application/json',
           },
-    
+          body: JSON.stringify({
+            userId: userId,
+            cartItems: cartItems,
+          }),
         };
 
         const response = await fetch(`${API_URL}/checkout/order`, requestOptions);
 
         if (response.ok) {
-          setOrder(cartItems);
-          console.log(cartItems);
+          const orderDetails = await response.json();
+          setOrder(orderDetails);
+          console.log(orderDetails);
         } else {
           navigate('/erreur'); 
         }
       } catch (error) {
         console.error('Une erreur s\'est produite lors de la récupération des détails de la commande :', error);
-
         navigate('/erreur');
       }
     };
 
     fetchOrderDetails();
   }, [user, navigate]);
-
   return (
     <div>
       {order ? (

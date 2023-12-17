@@ -16,6 +16,7 @@ const Order = () => {
     const fetchOrderDetails = async () => {
       try {
         const userId = user.id;
+        console.log(userId);
         const cartItems = JSON.parse(Cookies.get(`cartItems_${userId}`) || '[]');
 
         const requestOptions = {

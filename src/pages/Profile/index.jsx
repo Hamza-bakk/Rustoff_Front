@@ -1,75 +1,102 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import BannerProfile from '../../assets/images/illustrations/jap.png';
 import Avatar from '../../assets/images/rust.png';
-import { useParams } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 
 const Profile = () => {
- const { userId } = useParams();
- const [user, setUser] = useState({});
- const [token, setToken] = useState('');
+  const [user, setUser] = useState({});
+  const navigate = useNavigate();
+  const { userId } = useParams(); // Utilisation de "userId" au lieu de "id"
 
- const fetchUserProfile = async () => {
-  try {
-    const response = await fetch(API_URL + "/profiles/" + userId);
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const authToken = Cookies.get('token');
 
-    // Log de la réponse
-    console.log('Response:', response);
+        if (!userId || !authToken) {
+          console.error('ID utilisateur ou token non disponible lors de la récupération du profil');
+          return;
+        }
 
-    if (response.status === 204) {
-      console.log('No content');
-      // Aucun contenu à traiter ici, pas besoin de lire le JSON
-      setToken('');
-      return;
-    }
+        const response = await fetch(`${API_URL}/profiles/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
 
-    const data = await response.json();
-    setUser(data);
+        if (response.ok) {
+          try {
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+              const userData = await response.json();
+              setUser(userData);
+            } else {
+              console.error('La réponse n\'est pas au format JSON');
+            }
+          } catch (jsonError) {
+            console.error('Erreur lors de la conversion de la réponse en JSON:', jsonError);
+          }
+        } else {
+          console.error('Erreur lors de la récupération du profil utilisateur:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération du profil utilisateur:', error);
+      }
+    };
 
-    // Log du token
-    console.log('Token:', data.token);
+    fetchUserProfile();
+  }, [userId]);
 
-    setToken(data.token);
-  } catch (error) {
-    console.error("Error fetching user profile:", error);
-  }
-};
- 
- const deleteUser = async () => {
-  try {
-    // Attend que fetchUserProfile soit terminé
-    await fetchUserProfile();
- 
-    console.log("User ID to delete:", userId);
- 
-    // Vérifie si le token existe avant de l'utiliser dans la requête DELETE
-    if (token && token !== 'undefined') {
-      const response = await fetch(API_URL + "/profiles/" + userId, {
+  const handleDeleteUser = async () => {
+    try {
+      const authToken = Cookies.get('token');
+      
+      if (!userId || !authToken) {
+        console.error('ID utilisateur ou token non disponible lors de la suppression de l\'utilisateur');
+        return;
+      }
+  
+      // Utiliser window.confirm pour demander confirmation
+      const isConfirmed = window.confirm('Êtes-vous sûr de vouloir supprimer votre compte ?');
+  
+      if (!isConfirmed) {
+        return; // Annuler la suppression si l'utilisateur n'a pas confirmé
+      }
+  
+      console.log('ID utilisateur à supprimer :', userId);
+  
+      // Mise à jour de l'état local de l'utilisateur
+      setUser((prevUser) => ({
+        ...prevUser,
+        isLoggedIn: false,  // Marquer l'utilisateur comme déconnecté
+      }));
+  
+      const response = await fetch(`${API_URL}/profiles/${userId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
       });
- 
-      console.log("DELETE Headers:", {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      });
- 
+  
       if (response.ok) {
-        console.log("Account deleted successfully");
+        console.log("Compte supprimé avec succès");
+  
+        // Déconnexion côté Frontend (suppression du cookie)
+        Cookies.remove('token');
+  
+        // Forcer le rafraîchissement de la page
+        window.location.reload();
       } else {
-        console.error("Error deleting user account:", response.statusText);
+        console.error('Erreur lors de la suppression du compte utilisateur:', response.statusText);
       }
-    } else {
-      console.error("Token is empty or undefined");
+    } catch (error) {
+      console.error('Erreur lors de la suppression du compte utilisateur:', error);
     }
-  } catch (error) {
-    console.error("Error deleting user account:", error);
-  }
- };
+  };
 
   return (
     <section className="max-w-2xl mx-auto mt-8 bg-gray-800 shadow-xl rounded-lg text-gray-900">
@@ -97,7 +124,12 @@ const Profile = () => {
           <a href="/order" className="bg-gray-500 hover:bg-gray-400 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">Mes Commandes</a>
         </div>
         <div>
-          <button onClick={() => confirm("Are you sure?") && deleteUser()} className="bg-red-500 hover:bg-red-700 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline delete-account-button">Supprimer mon compte</button>
+        <button
+          onClick={handleDeleteUser}
+          className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Supprimer mon compte
+        </button>
         </div>
       </article>
     </section>

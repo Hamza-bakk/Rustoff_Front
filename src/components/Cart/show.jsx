@@ -154,9 +154,6 @@ const Cart = () => {
   };
   
   
-  
-  
-
   return (
     <div className="flex flex-col rounded max-w-3xl mt-4 p-6 space-y-4 sm:p-10 bg-gray-800 text-gray-100 mx-auto my-auto">
       <h2 className="text-xl font-semibold und">Votre Panier</h2>

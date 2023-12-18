@@ -5,7 +5,8 @@ import { userAtom } from '../../stores/userAtom';
 import { FaRegPlusSquare, FaRegMinusSquare } from 'react-icons/fa';
 import './order.css';
 
-const API_URL = `${import.meta.env.VITE_BASE_URL}`;
+// const API_URL = `${import.meta.env.VITE_BASE_URL}`;
+import { API_URL } from '../../stores/apiUrl';
 
 const ShowOrder = () => {
   const [user] = useAtom(userAtom);

@@ -4,7 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAtom, useSetAtom } from 'jotai';
 import { userAtom, cartAtom } from '../../stores/userAtom';
 
-const API_URL = `${import.meta.env.VITE_BASE_URL}`;
+// const API_URL = `${import.meta.env.VITE_BASE_URL}`;
+import { API_URL } from '../../stores/apiUrl';
 
 const ShowBoutique = () => {
   const { itemId } = useParams();

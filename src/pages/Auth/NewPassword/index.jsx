@@ -7,7 +7,8 @@ import { LockOutlined } from '@ant-design/icons';
 import logo from '../../../assets/rust.png';
 import Cookies from 'js-cookie';
 
-const API_URL = `${import.meta.env.VITE_BASE_URL}`;
+// const API_URL = `${import.meta.env.VITE_BASE_URL}`;
+import { API_URL } from '../../stores/apiUrl';
 
 const NewPassword = () => {
   const [user, setUser] = useAtom(userAtom);

@@ -9,7 +9,7 @@ import logo from '../../../assets/rust.png';
 import './login.css';
 
 // const API_URL = `${import.meta.env.VITE_BASE_URL}`;
-import { API_URL } from '../../stores/apiUrl';
+import { API_URL } from '../../../stores/apiUrl';
 
 const LoginForm = () => {
   const [user, setUser] = useAtom(userAtom);

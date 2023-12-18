@@ -155,22 +155,23 @@ const DashboardComponent = () => {
 
       {/* Commandes dernières 24H */}
       <div id="last-incomes">
-        <h1 className="font-bold text-white underline decoration-4 decoration-violet-500 underline-offset-8 py-4 uppercase">Commandes dernières 24H</h1>
-        <div id="stats" style={{ maxWidth: '600px' }}>
-          {recentOrders.map((order) => (
-            <div key={order.id} className="bg-black/60 to-white/5 rounded-lg" style={{ display: 'inline-block', width: 'auto', margin: '10px' }}>
-              <div className="flex flex-row items-center">
-                <div className="text-3xl p-4">💰</div>
-                <div className="p-2">
-                  <p className="text-xl font-bold">{order.total_price}</p>
-                  <p className="text-gray-500 font-medium">{order.user.email}</p>
-                  <p className="text-gray-500 text-sm">{order.created_at}</p>
-                </div>
-              </div>
+  <h1 className="font-bold text-white underline decoration-4 decoration-violet-500 underline-offset-8 py-4 uppercase">Commandes dernières 24H</h1>
+  <div id="stats" className="flex flex-wrap -mx-2">
+    {Array.isArray(recentOrders) && recentOrders.map((order) => {
+      return (
+        <div key={order.id} className="bg-black/60 to-white/5 rounded-lg w-full md:w-1/2 lg:w-1/3 xl:w-1/4 px-2 mb-4">
+          <div className="flex flex-row items-center">
+            <div className="text-3xl p-4">💰</div>
+            <div className="p-2">
+              <p className="text-xl text-green-400 font-bold">{order.total_price} €</p>
+              <p className="text-gray-500 text-sm">{order.created_at}</p>
             </div>
-          ))}
+          </div>
         </div>
-      </div>
+      );
+    })}
+  </div>
+</div>
 
       {/* Utilisateurs inscrits dernières 24H */}
       <div id="last-users">

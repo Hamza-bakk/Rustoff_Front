@@ -1,8 +1,8 @@
 import { FaTrash } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 
-// const API_URL = `${import.meta.env.VITE_BASE_URL}`;
-import { API_URL } from '../../stores/apiUrl';
+const API_URL = `${import.meta.env.VITE_BASE_URL}`;
+//import { API_URL } from '../../stores/apiUrl';
 
 const StoreAdmin = () => {
     const [items, setItems] = useState([]);

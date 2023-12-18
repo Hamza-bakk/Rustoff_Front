@@ -9,8 +9,8 @@ import { CloseCircleOutlined } from '@ant-design/icons';
 import { loadStripe } from '@stripe/stripe-js';
 import "./cart.css";
 
-// const API_URL = `${import.meta.env.VITE_BASE_URL}`;
-import { API_URL } from '../../stores/apiUrl';
+const API_URL = `${import.meta.env.VITE_BASE_URL}`;
+//import { API_URL } from '../../stores/apiUrl';
 const stripePromise = loadStripe('pk_test_51Nd8kkD5hgWYUZtgBAR72ber6nnSecBb9WM1TPqHJDKxGJTO2AZrj0eFdQ2N4A4bH0yAP0ewS5VoOWTYSHHKYubA00lDqFS4Uh');
 
 const Cart = () => {

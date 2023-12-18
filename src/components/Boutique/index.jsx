@@ -8,8 +8,8 @@ import { useCart } from '../../context';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { FaTruck, FaShoppingBasket } from 'react-icons/fa';
 
-// const API_URL = `${import.meta.env.VITE_BASE_URL}`;
-import { API_URL } from '../../stores/apiUrl';
+const API_URL = `${import.meta.env.VITE_BASE_URL}`;
+//import { API_URL } from '../../stores/apiUrl';
 
 const categories = [
   'Tout',

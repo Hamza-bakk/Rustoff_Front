@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
-// const API_URL = `${import.meta.env.VITE_BASE_URL}`;
-import { API_URL } from '../../stores/apiUrl';
+const API_URL = `${import.meta.env.VITE_BASE_URL}`;
+//import { API_URL } from '../../stores/apiUrl';
 
 export default function UsersAdmin() { // Ajoutez la déclaration du composant
     const [data, setData] = useState([]);

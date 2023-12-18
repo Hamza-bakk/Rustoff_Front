@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { useParams } from 'react-router-dom';
 import { userAtom } from '../../stores/userAtom';
-import { FaRegFileImage, FaRegTrashAlt, FaRegPlusSquare, FaRegMinusSquare } from 'react-icons/fa';
+import { FaRegPlusSquare, FaRegMinusSquare } from 'react-icons/fa';
 import './order.css';
 
 const API_URL = `${import.meta.env.VITE_BASE_URL}`;
@@ -140,8 +140,8 @@ const ShowOrder = () => {
             </div>
           ))
         ) : (
-          <p>Aucune commande trouvée.</p>
-        )}
+          <p className="text-black font-bold">Aucune commande trouvée.</p>
+          )}
       </div>
     </section>
   );

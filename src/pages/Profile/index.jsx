@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { notification } from 'antd';
 
 // const API_URL = `${import.meta.env.VITE_BASE_URL}`;
-import { API_URL } from '../../stores/apiUrl';
+import { API_URL } from '../../../stores/apiUrl';
 
 const Profile = () => {
   const [user, setUser] = useState({});

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useAtom } from 'jotai';
 import { userAtom } from '../../stores/userAtom';
-import { useParams, useNavigate, redirect } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context';
 import { notification } from 'antd';
 import { CloseCircleOutlined } from '@ant-design/icons';

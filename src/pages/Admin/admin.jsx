@@ -6,7 +6,7 @@ import { FaFileCircleXmark } from "react-icons/fa6";
 import { TbFileEuro } from "react-icons/tb";
 import { FaImages } from "react-icons/fa";
 
-import { API_URL } from '../../../stores/apiUrl';
+import { API_URL } from '../../stores/apiUrl';
 
 const DashboardComponent = () => {
   const [numUsers, setNumUsers] = useState(0);

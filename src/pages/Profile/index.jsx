@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import BannerProfile from '../../assets/images/illustrations/jap.png';
-import Avatar from '../../assets/images/rust.png';
 import Cookies from 'js-cookie';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { notification } from 'antd';
 
 const API_URL = `${import.meta.env.VITE_BASE_URL}`;
@@ -10,7 +9,6 @@ const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 const Profile = () => {
   const [user, setUser] = useState({});
   const [newEmail, setNewEmail] = useState('');
-  const navigate = useNavigate();
   const { userId } = useParams();
 
   useEffect(() => {
@@ -142,22 +140,10 @@ const Profile = () => {
       <article className="rounded-t-lg h-32 overflow-hidden">
         <img className="object-cover object-top w-full" src={BannerProfile} alt="Mountain" />
       </article>
-      <article className="mx-auto w-32 h-32 relative -mt-16 border-4 border-white rounded-full overflow-hidden">
-        {user.avatar ? (
-          <img src={user.avatar} alt="Avatar de l'utilisateur" className="object-cover object-center h-32 w-32" />
-        ) : (
-          <img src={Avatar} alt="Avatar par défaut" className="object-cover object-center h-32 w-32" />
-        )}
-      </article>
       <article className="text-center mt-2">
         <h2 className="mt-2 font-bold text-white">{user.email}</h2>
       </article>
       <article className="p-4 mt-2 flex flex-wrap justify-center gap-4">
-        <div>
-          <a href="/edit-profile" className="bg-purple-400 hover:bg-purple-300 text-black font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">
-            Modifier le profil
-          </a>
-        </div>
         <div>
           <a href={`/edit-password/${userId}`} className="bg-purple-400 hover:bg-purple-300 text-black font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">
             Modifier le Mot de passe
@@ -176,7 +162,7 @@ const Profile = () => {
         </div>
       </article>
       {/* Formulaire de mise à jour d'email */}
-      <article className="p-4 mt-2">
+      <article className="p-4 mt-2 flex flex-col items-center">
         <input
           type="email"
           placeholder="Nouvel email"

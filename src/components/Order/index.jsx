@@ -16,11 +16,10 @@ const Order = () => {
     const fetchOrderDetails = async () => {
       try {
         const userId = user.id;
-        console.log(userId);
         const cartItems = JSON.parse(Cookies.get(`cartItems_${userId}`) || '[]');
 
         const requestOptions = {
-          method: 'POST', // Utiliser la méthode POST
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -35,9 +34,8 @@ const Order = () => {
         if (response.ok) {
           const orderDetails = await response.json();
           setOrder(orderDetails);
-          console.log(orderDetails);
         } else {
-          navigate('/erreur'); 
+          navigate('/erreur');
         }
       } catch (error) {
         console.error('Une erreur s\'est produite lors de la récupération des détails de la commande :', error);
@@ -47,17 +45,16 @@ const Order = () => {
 
     fetchOrderDetails();
   }, [user, navigate]);
+
   return (
-    <div>
-      {order ? (
-        <div>
-          <h1>Merci pour votre commande !</h1>
+    <div className="container mx-auto p-8">
+      {order && (
+        <div className="bg-white p-8 rounded-lg shadow-md">
+          <h1 className="text-3xl font-semibold mb-4">Merci pour votre commande !</h1>
           <p>Nous avons bien reçu votre commande et nous la traitons actuellement. Vous recevrez bientôt une confirmation par e-mail.</p>
-          <p>Pour suivre l'état de votre commande ou voir l'historique de vos commandes, vous pouvez accéder à la page <Link to="/mescommandes">Mes Commandes</Link>.</p>
-          <p>Nous vous remercions de faire partie de notre communauté et espérons que vous apprécierez vos achats.</p>
+          <p className="mt-4">Pour télécharger vos produits ou voir l'historique de vos commandes, vous pouvez accéder à la page <Link to="/mescommandes" className="text-blue-500">Mes Commandes</Link>.</p>
+          <p className="mt-4">Nous vous remercions de faire partie de notre communauté et espérons que vous apprécierez vos achats.</p>
         </div>
-      ) : (
-        <p>Chargement des détails de la commande...</p>
       )}
     </div>
   );

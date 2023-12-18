@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const API_URL = `${import.meta.env.VITE_BASE_URL}`;
-//import { API_URL } from '../../stores/apiUrl';
+//const API_URL = `${import.meta.env.VITE_BASE_URL}`;
+import { API_URL } from "../../stores/apiUrl";
 
 const ProductsAdmin = () => {
     const initialFormData = {

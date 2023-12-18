@@ -5,8 +5,8 @@ import { useAtom } from 'jotai';
 import { userAtom } from '../../stores/userAtom';
 import "./order.css";
 
-const API_URL = `${import.meta.env.VITE_BASE_URL}`;
-//import { API_URL } from '../../stores/apiUrl';
+// const API_URL = `${import.meta.env.VITE_BASE_URL}`;
+import { API_URL } from "../../stores/apiUrl";
 
 const Order = () => {
   const [order, setOrder] = useState();

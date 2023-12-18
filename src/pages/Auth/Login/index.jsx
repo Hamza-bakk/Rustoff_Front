@@ -109,9 +109,6 @@ const LoginForm = () => {
             Connexion
           </Button>
           <a href="/register" className="text-white ml-2">Ou Inscrit toi !</a>
-          <a className="login-form-forgot text-white" href="">
-            Mot de passe perdu ?
-          </a>
         </Form.Item>
     </Form>
   </div>

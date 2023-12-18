@@ -7,8 +7,8 @@ import Cookies from 'js-cookie';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import logo from '../../../assets/rust.png';
 
-const API_URL = `${import.meta.env.VITE_BASE_URL}`;
-//import { API_URL } from '../../../stores/apiUrl';
+// const API_URL = `${import.meta.env.VITE_BASE_URL}`;
+import { API_URL } from '../../../stores/apiUrl';
 
 const Register = () => {
   const [, setUser] = useAtom(userAtom);

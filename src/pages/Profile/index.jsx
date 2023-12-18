@@ -3,6 +3,7 @@ import BannerProfile from '../../assets/images/illustrations/jap.png';
 import Cookies from 'js-cookie';
 import { useParams } from 'react-router-dom';
 import { notification } from 'antd';
+import { Link } from 'react-router-dom';
 
 // const API_URL = `${import.meta.env.VITE_BASE_URL}`;
 import { API_URL } from '../../stores/apiUrl';
@@ -151,7 +152,7 @@ const Profile = () => {
           </a>
         </div>
         <div>
-          <a href={`/mescommandes`} className="bg-gray-500 hover:bg-gray-400 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">Mes Commandes</a>
+          <Link to={`/mescommandes`} className="bg-gray-500 hover:bg-gray-400 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-sm">Mes Commandes</Link>
         </div>
         <div>
           <button
